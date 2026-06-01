@@ -1,65 +1,605 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { useFiltersStore } from "@/store/filters";
+
+type Category = {
+  id: string;
+  name: string;
+  description: string | null;
+};
+
+type Product = {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number;
+  stock: number;
+  categoryId: string;
+  category: Category;
+};
+
+const fetchJson = async (input: RequestInfo | URL, init?: RequestInit) => {
+  const res = await fetch(input, {
+    ...init,
+    headers: {
+      "Content-Type": "application/json",
+      ...(init?.headers || {}),
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const payload = await res.json().catch(() => ({}));
+    throw new Error(payload.error || "Error inesperado");
+  }
+
+  return res.json();
+};
+
+const asNumber = (value: unknown) =>
+  typeof value === "number" ? value : Number(value);
+
+function useCategoriesQuery() {
+  return useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: () => fetchJson("/api/categories"),
+  });
+}
+
+function useProductsQuery(filters: {
+  search: string;
+  categoryId: string | null;
+  minStock: number | null;
+}) {
+  const params = new URLSearchParams();
+  if (filters.search) params.set("search", filters.search);
+  if (filters.categoryId) params.set("categoryId", filters.categoryId);
+  if (filters.minStock !== null) params.set("minStock", String(filters.minStock));
+
+  const key = ["products", filters.search, filters.categoryId, filters.minStock];
+
+  return useQuery<Product[]>({
+    queryKey: key,
+    queryFn: () => fetchJson(`/api/products?${params.toString()}`),
+  });
+}
+
+const emptyProductForm = {
+  id: "",
+  name: "",
+  description: "",
+  price: "",
+  stock: "0",
+  categoryId: "",
+};
+
+const emptyCategoryForm = {
+  id: "",
+  name: "",
+  description: "",
+};
+
+function StatCard({ label, value, accent }: { label: string; value: string | number; accent: string }) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-4 shadow-lg shadow-slate-900/30">
+      <p className="text-xs uppercase tracking-[0.25em] text-slate-300">{label}</p>
+      <div className="mt-2 flex items-end gap-2">
+        <span className="text-2xl font-semibold text-white">{value}</span>
+        <span className={`inline-flex h-6 items-center rounded-full bg-gradient-to-r ${accent} px-2 text-[11px] font-semibold text-white/90`}>OK</span>
+      </div>
     </div>
+  );
+}
+
+export default function InventoryPage() {
+  const filters = useFiltersStore();
+  const queryClient = useQueryClient();
+  const { data: categories = [], isLoading: loadingCategories } = useCategoriesQuery();
+  const productsKey = ["products", filters.search, filters.categoryId, filters.minStock];
+  const { data: products = [], isLoading: loadingProducts } = useProductsQuery(filters);
+
+  const [productForm, setProductForm] = useState(emptyProductForm);
+  const [categoryForm, setCategoryForm] = useState(emptyCategoryForm);
+
+  const productMutation = useMutation({
+    mutationFn: async (payload: typeof productForm) => {
+      const body = {
+        name: payload.name,
+        description: payload.description || null,
+        price: Number(payload.price),
+        stock: Number(payload.stock),
+        categoryId: payload.categoryId,
+      };
+
+      if (payload.id) {
+        return fetchJson(`/api/products/${payload.id}`, {
+          method: "PUT",
+          body: JSON.stringify(body),
+        });
+      }
+
+      return fetchJson("/api/products", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: productsKey });
+      setProductForm(emptyProductForm);
+    },
+  });
+
+  const deleteProduct = useMutation({
+    mutationFn: (id: string) =>
+      fetchJson(`/api/products/${id}`, {
+        method: "DELETE",
+      }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: productsKey }),
+  });
+
+  const stockMutation = useMutation({
+    mutationFn: async ({ id, delta }: { id: string; delta: number }) => {
+      const current = products.find((p) => p.id === id);
+      const nextStock = Math.max(0, (current?.stock ?? 0) + delta);
+      return fetchJson(`/api/products/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({ stock: nextStock }),
+      });
+    },
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries({ queryKey: productsKey });
+      const previous = queryClient.getQueryData<Product[]>(productsKey);
+
+      queryClient.setQueryData<Product[] | undefined>(productsKey, (old) =>
+        old?.map((p) =>
+          p.id === variables.id
+            ? { ...p, stock: Math.max(0, p.stock + variables.delta) }
+            : p
+        )
+      );
+
+      return { previous };
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(productsKey, context.previous);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: productsKey });
+    },
+  });
+
+  const categoryMutation = useMutation({
+    mutationFn: async (payload: typeof categoryForm) => {
+      const body = { name: payload.name, description: payload.description || null };
+      if (payload.id) {
+        return fetchJson(`/api/categories/${payload.id}`, {
+          method: "PUT",
+          body: JSON.stringify(body),
+        });
+      }
+      return fetchJson("/api/categories", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: productsKey });
+      setCategoryForm(emptyCategoryForm);
+    },
+  });
+
+  const deleteCategory = useMutation({
+    mutationFn: (id: string) =>
+      fetchJson(`/api/categories/${id}`, {
+        method: "DELETE",
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: productsKey });
+    },
+  });
+
+  const totalStock = useMemo(
+    () => products.reduce((acc, p) => acc + p.stock, 0),
+    [products]
+  );
+
+  const totalValue = useMemo(
+    () => products.reduce((acc, p) => acc + p.stock * asNumber(p.price), 0),
+    [products]
+  );
+
+  const productCount = products.length;
+  const categoryCount = categories.length;
+
+  const editingProduct = productForm.id ? "Editando producto" : "Nuevo producto";
+  const editingCategory = categoryForm.id ? "Editando categoría" : "Nueva categoría";
+
+  return (
+    <main className="min-h-screen bg-[#0b1f3d] text-slate-50 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(59,130,246,0.3),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.3),transparent_32%),radial-gradient(circle_at_60%_80%,rgba(99,102,241,0.32),transparent_34%)]" />
+        <div className="absolute inset-x-0 bottom-[-8%] h-[38%] bg-[radial-gradient(120%_120%_at_50%_20%,rgba(59,130,246,0.45),transparent)] blur-3xl opacity-80" />
+        <div className="absolute inset-0 animate-[wave_18s_ease-in-out_infinite] bg-[linear-gradient(120deg,rgba(255,255,255,0.1),transparent_35%),linear-gradient(240deg,rgba(255,255,255,0.07),transparent_32%)] opacity-45" />
+      </div>
+      <div className="relative mx-auto flex max-w-7xl gap-4 px-4 py-6 md:px-6">
+        <aside className="hidden w-60 shrink-0 flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-900/40 backdrop-blur md:flex">
+          <div className="text-sm font-semibold text-white">Menú</div>
+          {[{ label: "General", href: "/general" }, { label: "Inventario", href: "/" }, { label: "Órdenes", href: "/ordenes" }, { label: "Transferencias", href: "/transferencias" }, { label: "Reportes", href: "/reportes" }].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition hover:bg-white/10 ${
+                item.href === "/" ? "bg-white/15 text-white font-semibold" : "text-slate-200"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </aside>
+
+        <div className="flex-1 space-y-5">
+          <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4 shadow-2xl shadow-slate-900/50 backdrop-blur">
+            <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-slate-300">
+                  Inventario
+                  <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-100">Activo</span>
+                </div>
+                <h1 className="text-3xl font-semibold">Panel de productos</h1>
+                <p className="text-sm text-slate-300">Controla existencias, categorías y stock en tiempo real.</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline" className="border-white/20 bg-white/10">Ajustes</Button>
+                <Button onClick={() => setCategoryForm(emptyCategoryForm)}>+ Categoría</Button>
+                <Button onClick={() => setProductForm(emptyProductForm)} className="bg-emerald-500 hover:bg-emerald-500/90 text-emerald-50">+ Producto</Button>
+              </div>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <StatCard label="Productos" value={productCount} accent="from-blue-500/60 to-blue-400/20" />
+              <StatCard label="Categorías" value={categoryCount} accent="from-emerald-500/60 to-emerald-400/20" />
+              <StatCard label="Stock total" value={totalStock} accent="from-indigo-500/60 to-indigo-400/20" />
+              <StatCard label="Valor estimado" value={`$${totalValue.toFixed(2)}`} accent="from-amber-500/60 to-amber-400/20" />
+            </div>
+          </div>
+
+          <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
+            <Card className="border-white/10 bg-white/5 text-slate-50 shadow-2xl shadow-slate-900/40 backdrop-blur">
+              <CardHeader className="border-b border-white/5">
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                  <CardTitle className="text-xl font-semibold">Listado de productos</CardTitle>
+                  <div className="flex flex-wrap gap-3 text-sm text-slate-200">
+                    <div className="flex flex-1 min-w-[220px] items-center gap-2">
+                      <Input
+                        placeholder="Buscar nombre o descripción"
+                        value={filters.search}
+                        onChange={(e) => filters.setSearch(e.target.value)}
+                        className="bg-slate-900/60 border-white/10"
+                      />
+                    </div>
+                    <div className="flex items-center gap-2 min-w-[200px]">
+                      <Label className="text-xs text-slate-300">Categoría</Label>
+                      <Select
+                        value={filters.categoryId ?? "all"}
+                        onValueChange={(val) => filters.setCategoryId(val === "all" ? null : val)}
+                      >
+                        <SelectTrigger className="w-[200px] bg-slate-900">
+                          <SelectValue placeholder="Todas" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-slate-900 text-slate-50 border border-white/10">
+                          <SelectGroup>
+                            <SelectLabel>Todas</SelectLabel>
+                            <SelectItem value="all">Todas</SelectItem>
+                            {categories.map((cat) => (
+                              <SelectItem key={cat.id} value={cat.id}>
+                                {cat.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Label className="text-xs text-slate-300">Stock ≥</Label>
+                      <Input
+                        type="number"
+                        className="w-28 bg-slate-900/60 border-white/10"
+                        value={filters.minStock ?? ""}
+                        onChange={(e) => filters.setMinStock(e.target.value ? Number(e.target.value) : null)}
+                      />
+                    </div>
+                    <Button variant="ghost" className="text-xs text-slate-200" onClick={() => filters.reset()}>
+                      Limpiar filtros
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="rounded-xl border border-white/15 bg-slate-900/80 shadow-lg shadow-slate-900/40 overflow-hidden">
+                  <Table>
+                    <TableHeader className="sticky top-0 bg-[#050915] text-white shadow-sm">
+                      <TableRow>
+                        <TableHead className="text-white drop-shadow-sm">Producto</TableHead>
+                        <TableHead className="text-white drop-shadow-sm">Categoria</TableHead>
+                        <TableHead className="text-right text-white drop-shadow-sm">Precio</TableHead>
+                        <TableHead className="text-center text-white drop-shadow-sm">Stock</TableHead>
+                        <TableHead className="text-left text-white drop-shadow-sm">Acciones</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {loadingProducts ? (
+                        <TableRow>
+                          <TableCell colSpan={5} className="text-center text-sm text-slate-400">
+                            Cargando productos...
+                          </TableCell>
+                        </TableRow>
+                      ) : products.length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={5} className="text-center text-sm text-slate-400">
+                            No hay productos con los filtros actuales.
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        products.map((product) => (
+                          <TableRow key={product.id} className="border-b border-white/10 bg-white/5/20 hover:bg-white/10">
+                            <TableCell className="max-w-[240px]">
+                              <div className="flex flex-col gap-1">
+                                <span className="text-base font-semibold text-white">{product.name}</span>
+                                {product.description ? (
+                                  <span className="text-xs text-slate-200 line-clamp-2">{product.description}</span>
+                                ) : null}
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <Badge className="bg-slate-800 text-slate-100 border border-white/20">
+                                {product.category?.name ?? "Sin categoría"}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-right font-medium">
+                              ${asNumber(product.price).toFixed(2)}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              <div className="flex items-center justify-center gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="icon-sm"
+                                  disabled={stockMutation.isPending}
+                                  onClick={() => stockMutation.mutate({ id: product.id, delta: -1 })}
+                                >
+                                  -
+                                </Button>
+                                <span className="text-base font-semibold">{product.stock}</span>
+                                <Button
+                                  variant="ghost"
+                                  size="icon-sm"
+                                  disabled={stockMutation.isPending}
+                                  onClick={() => stockMutation.mutate({ id: product.id, delta: 1 })}
+                                >
+                                  +
+                                </Button>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-left">
+                              <div className="flex justify-start gap-2">
+                                <Button
+                                  variant="secondary"
+                                  size="sm"
+                                  className="bg-blue-500 text-white hover:bg-blue-500/90 shadow-md shadow-blue-900/30 border-none"
+                                  onClick={() =>
+                                    setProductForm({
+                                      id: product.id,
+                                      name: product.name,
+                                      description: product.description ?? "",
+                                      price: String(product.price),
+                                      stock: String(product.stock),
+                                      categoryId: product.categoryId,
+                                    })
+                                  }
+                                >
+                                  Editar
+                                </Button>
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  disabled={deleteProduct.isPending}
+                                  onClick={() => deleteProduct.mutate(product.id)}
+                                >
+                                  Borrar
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      )}
+                    </TableBody>
+                  </Table>
+                  <p className="px-4 py-3 text-sm text-slate-400">Actualización de stock optimista con rollback.</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="space-y-4">
+              <Card className="border-white/10 bg-slate-900/70 text-slate-50 shadow-2xl shadow-slate-950/50 backdrop-blur">
+                <CardHeader className="border-b border-white/5">
+                  <CardTitle>{editingProduct}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="space-y-1">
+                    <Label>Nombre</Label>
+                    <Input
+                      value={productForm.name}
+                      onChange={(e) => setProductForm((p) => ({ ...p, name: e.target.value }))}
+                      placeholder="Ej. Monitor 27"
+                      className="bg-slate-900/60 border-white/10"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label>Descripción</Label>
+                    <Input
+                      value={productForm.description}
+                      onChange={(e) => setProductForm((p) => ({ ...p, description: e.target.value }))}
+                      placeholder="Opcional"
+                      className="bg-slate-900/60 border-white/10"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <Label>Precio</Label>
+                      <Input
+                        type="number"
+                        value={productForm.price}
+                        onChange={(e) => setProductForm((p) => ({ ...p, price: e.target.value }))}
+                        min={0}
+                        step={0.01}
+                        className="bg-slate-900/60 border-white/10"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Stock</Label>
+                      <Input
+                        type="number"
+                        value={productForm.stock}
+                        onChange={(e) => setProductForm((p) => ({ ...p, stock: e.target.value }))}
+                        min={0}
+                        className="bg-slate-900/60 border-white/10"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <Label>Categoría</Label>
+                    <Select
+                      value={productForm.categoryId || undefined}
+                      onValueChange={(val) => setProductForm((p) => ({ ...p, categoryId: val }))}
+                    >
+                      <SelectTrigger className="bg-slate-900">
+                        <SelectValue placeholder={loadingCategories ? "Cargando..." : "Selecciona"} />
+                      </SelectTrigger>
+                      <SelectContent className="bg-slate-900 text-slate-50 border border-white/10">
+                        <SelectGroup>
+                          <SelectLabel>Categorías</SelectLabel>
+                          {categories.map((cat) => (
+                            <SelectItem key={cat.id} value={cat.id}>
+                              {cat.name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button className="flex-1" onClick={() => productMutation.mutate(productForm)} disabled={productMutation.isPending}>
+                      {productForm.id ? "Guardar cambios" : "Crear producto"}
+                    </Button>
+                    <Button variant="ghost" onClick={() => setProductForm(emptyProductForm)} disabled={productMutation.isPending}>
+                      Limpiar
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-white/10 bg-white/5 text-slate-50 shadow-2xl shadow-slate-950/40 backdrop-blur">
+                <CardHeader className="border-b border-white/5">
+                  <CardTitle>{editingCategory}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="space-y-1">
+                    <Label>Nombre</Label>
+                    <Input
+                      value={categoryForm.name}
+                      onChange={(e) => setCategoryForm((c) => ({ ...c, name: e.target.value }))}
+                      placeholder="Ej. Oficina"
+                      className="bg-slate-900/60 border-white/10"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label>Descripción</Label>
+                    <Input
+                      value={categoryForm.description}
+                      onChange={(e) => setCategoryForm((c) => ({ ...c, description: e.target.value }))}
+                      placeholder="Opcional"
+                      className="bg-slate-900/60 border-white/10"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button className="flex-1" onClick={() => categoryMutation.mutate(categoryForm)} disabled={categoryMutation.isPending}>
+                      {categoryForm.id ? "Guardar" : "Crear categoría"}
+                    </Button>
+                    <Button variant="ghost" onClick={() => setCategoryForm(emptyCategoryForm)} disabled={categoryMutation.isPending}>
+                      Limpiar
+                    </Button>
+                  </div>
+                  <div className="rounded-xl border border-white/10 bg-slate-950/50">
+                    <div className="px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-400">Categorías</div>
+                    <div className="divide-y divide-white/5">
+                      {loadingCategories ? (
+                        <div className="p-3 text-sm text-slate-400">Cargando...</div>
+                      ) : categories.length === 0 ? (
+                        <div className="p-3 text-sm text-slate-400">Sin categorías</div>
+                      ) : (
+                        categories.map((cat) => (
+                          <div key={cat.id} className="flex items-center justify-between px-3 py-2 text-sm">
+                            <div>
+                              <p className="font-medium text-slate-50">{cat.name}</p>
+                              {cat.description ? <p className="text-xs text-slate-400">{cat.description}</p> : null}
+                            </div>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="secondary"
+                                size="xs"
+                                className="bg-blue-500 text-white hover:bg-blue-500/90 shadow-md shadow-blue-900/30 border-none"
+                                onClick={() =>
+                                  setCategoryForm({
+                                    id: cat.id,
+                                    name: cat.name,
+                                    description: cat.description ?? "",
+                                  })
+                                }
+                              >
+                                Editar
+                              </Button>
+                              <Button variant="destructive" size="xs" disabled={deleteCategory.isPending} onClick={() => deleteCategory.mutate(cat.id)}>
+                                Borrar
+                              </Button>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
   );
 }
