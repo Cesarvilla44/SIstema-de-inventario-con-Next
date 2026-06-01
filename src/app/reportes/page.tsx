@@ -87,15 +87,7 @@ export default function ReportsPage() {
     createReport.mutate();
   };
 
-  const makeHref = (r: Report) => {
-    const params = new URLSearchParams({
-      title: r.title,
-      owner: r.owner,
-      date: r.date,
-      notes: r.notes ?? "",
-    });
-    return `/reportes/${r.id}?${params.toString()}`;
-  };
+  const makeHref = (r: Report) => `/reportes/${r.id}`;
 
   return (
     <main className="min-h-screen bg-[#0b1f3d] text-slate-50">
