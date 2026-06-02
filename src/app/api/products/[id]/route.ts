@@ -2,16 +2,18 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 interface Params {
-  params: { id: string };
+  params: { id: string } | Promise<{ id: string }>;
 }
 
 export async function PUT(request: Request, { params }: Params) {
+  const { id } = await Promise.resolve(params);
+  if (!id) return NextResponse.json({ error: "ID requerido" }, { status: 400 });
   try {
     const body = await request.json();
     const { name, description, price, stock, categoryId } = body;
 
     const product = await prisma.product.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         description: description ?? null,
@@ -30,8 +32,10 @@ export async function PUT(request: Request, { params }: Params) {
 }
 
 export async function DELETE(_request: Request, { params }: Params) {
+  const { id } = await Promise.resolve(params);
+  if (!id) return NextResponse.json({ error: "ID requerido" }, { status: 400 });
   try {
-    await prisma.product.delete({ where: { id: params.id } });
+    await prisma.product.delete({ where: { id } });
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("DELETE /api/products/[id]", error);

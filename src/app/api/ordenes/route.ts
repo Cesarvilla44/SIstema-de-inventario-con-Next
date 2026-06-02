@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { customer, status = "Pendiente", amount, date, notes } = body;
 
-    if (!customer || !amount || !date) {
+    if (!customer || amount === undefined || amount === null || !date) {
       return NextResponse.json({ error: "Cliente, monto y fecha son obligatorios" }, { status: 400 });
     }
 

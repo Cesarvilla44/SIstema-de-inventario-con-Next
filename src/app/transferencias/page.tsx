@@ -138,9 +138,21 @@ export default function TransfersPage() {
                 ) : (
                   transfers.map((t) => (
                     <tr key={t.id} className="border-b border-white/10 hover:bg-white/5">
-                      <td className="px-3 py-2">{t.id}</td>
-                      <td className="px-3 py-2">{t.from}</td>
-                      <td className="px-3 py-2">{t.to}</td>
+                      <td className="px-3 py-2">
+                        <Link className="hover:underline text-blue-400 font-medium" href={`/transferencias/${t.id}`}>
+                          {t.id}
+                        </Link>
+                      </td>
+                      <td className="px-3 py-2">
+                        <Link className="hover:underline font-medium" href={`/transferencias/${t.id}`}>
+                          {t.from}
+                        </Link>
+                      </td>
+                      <td className="px-3 py-2">
+                        <Link className="hover:underline font-medium" href={`/transferencias/${t.id}`}>
+                          {t.to}
+                        </Link>
+                      </td>
                       <td className="px-3 py-2 text-right">{t.items}</td>
                       <td className="px-3 py-2">{t.date?.slice(0, 10)}</td>
                       <td className="px-3 py-2">

@@ -138,8 +138,16 @@ export default function OrdersPage() {
                 ) : (
                   orders.map((o) => (
                     <tr key={o.id} className="border-b border-white/10 hover:bg-white/5">
-                      <td className="px-3 py-2">{o.id}</td>
-                      <td className="px-3 py-2">{o.customer}</td>
+                      <td className="px-3 py-2">
+                        <Link className="hover:underline text-blue-400 font-medium" href={`/ordenes/${o.id}`}>
+                          {o.id}
+                        </Link>
+                      </td>
+                      <td className="px-3 py-2">
+                        <Link className="hover:underline font-medium" href={`/ordenes/${o.id}`}>
+                          {o.customer}
+                        </Link>
+                      </td>
                       <td className="px-3 py-2">
                         <span className="rounded-full bg-emerald-500/20 px-2 py-1 text-xs text-emerald-100">{o.status}</span>
                       </td>

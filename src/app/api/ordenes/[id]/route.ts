@@ -2,21 +2,25 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 interface Params {
-  params: { id: string };
+  params: { id: string } | Promise<{ id: string }>;
 }
 
 export async function GET(_req: Request, { params }: Params) {
-  const order = await prisma.order.findUnique({ where: { id: params.id } });
+  const { id } = await Promise.resolve(params);
+  if (!id) return NextResponse.json({ error: "ID requerido" }, { status: 400 });
+  const order = await prisma.order.findUnique({ where: { id } });
   if (!order) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
   return NextResponse.json(order);
 }
 
 export async function PUT(request: Request, { params }: Params) {
+  const { id } = await Promise.resolve(params);
+  if (!id) return NextResponse.json({ error: "ID requerido" }, { status: 400 });
   try {
     const body = await request.json();
     const { customer, status, amount, date, notes } = body;
     const order = await prisma.order.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         customer,
         status,
@@ -33,11 +37,17 @@ export async function PUT(request: Request, { params }: Params) {
 }
 
 export async function DELETE(_req: Request, { params }: Params) {
+  const { id } = await Promise.resolve(params);
+  if (!id) return NextResponse.json({ error: "ID requerido" }, { status: 400 });
   try {
-    await prisma.order.delete({ where: { id: params.id } });
+    await prisma.order.delete({ where: { id } });
     return NextResponse.json({ ok: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error("DELETE /api/ordenes/[id]", error);
-    return NextResponse.json({ error: "Error al eliminar" }, { status: 500 });
+    if (error?.code === "P2025") {
+      // Si no existe, respondemos idempotente
+      return NextResponse.json({ ok: true });
+    }
+    return NextResponse.json({ error: "Error al eliminar orden" }, { status: 500 });
   }
 }
