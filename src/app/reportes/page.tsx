@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useThemeStore } from "@/store/theme";
 
 type Report = {
   id: string;
@@ -32,6 +33,7 @@ const fetchJson = async (input: RequestInfo | URL, init?: RequestInit) => {
 
 export default function ReportsPage() {
   const queryClient = useQueryClient();
+  const { theme } = useThemeStore();
   const { data: reports = [], isLoading } = useQuery<Report[]>({
     queryKey: ["reports"],
     queryFn: () => fetchJson("/api/reportes"),
@@ -90,30 +92,30 @@ export default function ReportsPage() {
   const makeHref = (r: Report) => `/reportes/${r.id}`;
 
   return (
-    <main className="min-h-screen bg-[#0b1f3d] text-slate-50">
+    <main className={`min-h-screen ${theme === "dark" ? "bg-[#0b1f3d] text-slate-50" : "bg-slate-100 text-slate-900"}`}>
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10">
-        <header className="rounded-2xl border border-white/10 bg-slate-900/70 p-6 shadow-2xl shadow-slate-900/50 backdrop-blur">
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-300">Reportes</p>
-          <h1 className="text-3xl font-semibold">Reportes y alertas</h1>
-          <p className="text-sm text-slate-300">Vista demo. Aquí irán gráficos, exportaciones y alertas.</p>
-          <div className="mt-4 flex gap-3 text-sm text-slate-200">
-            <Link href="/" className="rounded-lg border border-white/10 bg-white/10 px-3 py-2 hover:bg-white/15">
+        <header className={`rounded-2xl border p-6 shadow-2xl backdrop-blur ${theme === "dark" ? "border-white/10 bg-slate-900/70 shadow-slate-900/50" : "border-slate-200 bg-white shadow-slate-200/50"}`}>
+          <p className={`text-xs uppercase tracking-[0.3em] ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>Reportes</p>
+          <h1 className={`text-3xl font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>Reportes y alertas</h1>
+          <p className={`text-sm ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>Vista demo. Aquí irán gráficos, exportaciones y alertas.</p>
+          <div className={`mt-4 flex gap-3 text-sm ${theme === "dark" ? "text-slate-200" : "text-slate-600"}`}>
+            <Link href="/" className={`rounded-lg border px-3 py-2 ${theme === "dark" ? "border-white/10 bg-white/10 hover:bg-white/15" : "border-slate-300 bg-slate-50 hover:bg-slate-100"}`}>
               Volver a Inventario
             </Link>
           </div>
         </header>
 
-        <section className="rounded-2xl border border-white/10 bg-slate-900/70 p-4 shadow-xl shadow-slate-900/50">
+        <section className={`rounded-2xl border p-4 shadow-xl ${theme === "dark" ? "border-white/10 bg-slate-900/70 shadow-slate-900/50" : "border-slate-200 bg-white shadow-slate-200/50"}`}>
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Reportes disponibles</h2>
+            <h2 className={`text-lg font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>Reportes disponibles</h2>
             <Button onClick={() => setOpen(true)} className="bg-blue-500 hover:bg-blue-500/90 text-white shadow-md shadow-blue-900/30">
               Nuevo reporte
             </Button>
           </div>
-          <div className="overflow-hidden rounded-xl border border-white/10">
+          <div className={`overflow-hidden rounded-xl border ${theme === "dark" ? "border-white/10" : "border-slate-200"}`}>
             {deleteError ? <p className="px-3 py-2 text-sm text-red-300">{deleteError}</p> : null}
-            <table className="min-w-full bg-slate-950/60 text-sm">
-              <thead className="bg-[#050915] text-white">
+            <table className={`min-w-full text-sm ${theme === "dark" ? "bg-slate-950/60" : "bg-white"}`}>
+              <thead className={theme === "dark" ? "bg-[#050915] text-white" : "bg-slate-50 text-slate-900"}>
                 <tr>
                   <th className="px-3 py-3 text-left font-semibold">ID</th>
                   <th className="px-3 py-3 text-left font-semibold">Título</th>
@@ -124,19 +126,19 @@ export default function ReportsPage() {
               </thead>
               <tbody>
                 {reports.map((r) => (
-                  <tr key={r.id} className="border-b border-white/10 hover:bg-white/5">
+                  <tr key={r.id} className={`border-b ${theme === "dark" ? "border-white/10 hover:bg-white/5" : "border-slate-200 hover:bg-slate-50"}`}>
                     <td className="px-3 py-2">
-                      <Link className="hover:underline" href={makeHref(r)}>
+                      <Link className={`hover:underline ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`} href={makeHref(r)}>
                         {r.id}
                       </Link>
                     </td>
                     <td className="px-3 py-2">
-                      <Link className="hover:underline" href={makeHref(r)}>
+                      <Link className={`hover:underline ${theme === "dark" ? "text-white" : "text-slate-900"}`} href={makeHref(r)}>
                         {r.title}
                       </Link>
                     </td>
-                    <td className="px-3 py-2">{r.owner}</td>
-                    <td className="px-3 py-2">{r.date}</td>
+                    <td className={`px-3 py-2 ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>{r.owner}</td>
+                    <td className={`px-3 py-2 ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>{r.date}</td>
                     <td className="px-3 py-2">
                       <Button
                         variant="destructive"
@@ -157,31 +159,31 @@ export default function ReportsPage() {
 
       {open ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-slate-900/90 p-6 shadow-2xl shadow-slate-950/60 backdrop-blur">
+          <div className={`w-full max-w-lg rounded-2xl border p-6 shadow-2xl backdrop-blur ${theme === "dark" ? "border-white/10 bg-slate-900/90 shadow-slate-950/60" : "border-slate-200 bg-white shadow-slate-200/60"}`}>
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-300">Nuevo reporte</p>
-                <h3 className="text-xl font-semibold">Crear reporte</h3>
-                <p className="text-xs text-slate-400">ID asignado automáticamente: {nextId}</p>
+                <p className={`text-xs uppercase tracking-[0.3em] ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>Nuevo reporte</p>
+                <h3 className={`text-xl font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>Crear reporte</h3>
+                <p className={`text-xs ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>ID asignado automáticamente: {nextId}</p>
               </div>
-              <button className="text-slate-300 hover:text-white" onClick={() => setOpen(false)}>
+              <button className={theme === "dark" ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-slate-900"} onClick={() => setOpen(false)}>
                 ✕
               </button>
             </div>
 
             <div className="mt-4 space-y-3">
               <div className="space-y-1">
-                <Label>Título</Label>
-                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Ej. Alerta de stock" />
+                <Label className={theme === "dark" ? "" : "text-slate-700"}>Título</Label>
+                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Ej. Alerta de stock" className={theme === "dark" ? "" : "bg-slate-50 border-slate-300"} />
               </div>
               <div className="space-y-1">
-                <Label>Fecha</Label>
-                <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="[color-scheme:dark] text-white" />
+                <Label className={theme === "dark" ? "" : "text-slate-700"}>Fecha</Label>
+                <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className={theme === "dark" ? "[color-scheme:dark] text-white" : "bg-slate-50 border-slate-300"} />
               </div>
               <div className="space-y-1">
-                <Label>Observaciones</Label>
+                <Label className={theme === "dark" ? "" : "text-slate-700"}>Observaciones</Label>
                 <textarea
-                  className="min-h-[100px] w-full rounded-lg border border-white/10 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 outline-none placeholder:text-slate-500"
+                  className={`min-h-[100px] w-full rounded-lg border px-3 py-2 text-sm outline-none placeholder:text-slate-500 ${theme === "dark" ? "border-white/10 bg-slate-900/70 text-slate-50" : "border-slate-300 bg-slate-50 text-slate-900"}`}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Describe hallazgos o acciones..."
@@ -189,7 +191,7 @@ export default function ReportsPage() {
                 {errorMsg ? <p className="text-sm text-red-300">{errorMsg}</p> : null}
               </div>
               <div className="flex justify-end gap-2">
-                <Button variant="ghost" onClick={() => setOpen(false)}>
+                <Button variant="ghost" onClick={() => setOpen(false)} className={theme === "dark" ? "" : "text-slate-600"}>
                   Cancelar
                 </Button>
                 <Button onClick={submit} disabled={!title.trim() || createReport.isPending} className="bg-emerald-500 hover:bg-emerald-500/90 text-white">
