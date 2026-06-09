@@ -93,10 +93,10 @@ export default function ReportsPage() {
   return (
     <main className="min-h-screen bg-slate-100 text-slate-900 dark:bg-[#0b1f3d] dark:text-slate-50">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10">
-        <header className="rounded-2xl border p-6 shadow-2xl backdrop-blur border-white/10 bg-slate-900/70 shadow-slate-900/50 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/50">
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-300 dark:text-slate-600">Reportes</p>
+        <header className="rounded-2xl border p-6 shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/50 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-slate-900/50">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Reportes</p>
           <h1 className="text-3xl font-semibold text-slate-900 dark:text-white">Reportes y alertas</h1>
-          <p className="text-sm text-slate-300 dark:text-slate-600">Vista demo. Aquí irán gráficos, exportaciones y alertas.</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">Vista demo. Aquí irán gráficos, exportaciones y alertas.</p>
           <div className="mt-4 flex gap-3 text-sm text-slate-200 dark:text-slate-600">
             <Link href="/" className="rounded-lg border px-3 py-2 border-white/10 bg-white/10 hover:bg-white/15 dark:border-slate-300 dark:bg-slate-50 dark:hover:bg-slate-100">
               Volver a Inventario
@@ -104,17 +104,17 @@ export default function ReportsPage() {
           </div>
         </header>
 
-        <section className="rounded-2xl border p-4 shadow-xl border-white/10 bg-slate-900/70 shadow-slate-900/50 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/50">
+        <section className="rounded-2xl border p-4 shadow-xl border-slate-200 bg-white shadow-slate-200/50 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-slate-900/50">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Reportes disponibles</h2>
             <Button onClick={() => setOpen(true)} className="bg-blue-500 hover:bg-blue-500/90 text-white shadow-md shadow-blue-900/30">
               Nuevo reporte
             </Button>
           </div>
-          <div className="overflow-hidden rounded-xl border border-white/10 dark:border-slate-200">
+          <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-white/10">
             {deleteError ? <p className="px-3 py-2 text-sm text-red-300">{deleteError}</p> : null}
-            <table className="min-w-full text-sm bg-slate-950/60 dark:bg-white">
-              <thead className="bg-[#050915] text-white dark:bg-slate-50 dark:text-slate-900">
+            <table className="min-w-full text-sm bg-white dark:bg-slate-950/60">
+              <thead className="bg-slate-50 text-slate-900 dark:bg-[#050915] dark:text-white">
                 <tr>
                   <th className="px-3 py-3 text-left font-semibold">ID</th>
                   <th className="px-3 py-3 text-left font-semibold">Título</th>
@@ -136,8 +136,8 @@ export default function ReportsPage() {
                         {r.title}
                       </Link>
                     </td>
-                    <td className="px-3 py-2 text-slate-300 dark:text-slate-600">{r.owner}</td>
-                    <td className="px-3 py-2 text-slate-300 dark:text-slate-600">{r.date}</td>
+                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{r.owner}</td>
+                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{r.date}</td>
                     <td className="px-3 py-2">
                       <Button
                         variant="destructive"
@@ -158,10 +158,10 @@ export default function ReportsPage() {
 
       {open ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="w-full max-w-lg rounded-2xl border p-6 shadow-2xl backdrop-blur border-white/10 bg-slate-900/90 shadow-slate-950/60 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/60">
+          <div className="w-full max-w-lg rounded-2xl border p-6 shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/50 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-slate-900/50">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-300 dark:text-slate-600">Nuevo reporte</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Nuevo reporte</p>
                 <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Crear reporte</h3>
                 <p className="text-xs text-slate-400 dark:text-slate-600">ID asignado automáticamente: {nextId}</p>
               </div>
