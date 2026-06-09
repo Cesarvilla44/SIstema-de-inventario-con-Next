@@ -26,7 +26,7 @@ export default function GeneralPage() {
         <section className="grid gap-4 md:grid-cols-2">
           <div className="rounded-xl border p-4 shadow-lg border-slate-200 bg-white shadow-slate-200/50 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-slate-900/50">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Pendientes</h2>
-            <ul className="mt-3 space-y-2 text-sm text-slate-200 dark:text-slate-900">
+            <ul className="mt-3 space-y-2 text-sm text-slate-900 dark:text-slate-200">
               <li>• Definir KPIs de negocio.</li>
               <li>• Conectar panel de órdenes y transferencias.</li>
               <li>• Añadir alertas de stock bajo.</li>
@@ -34,14 +34,14 @@ export default function GeneralPage() {
           </div>
           <div className="rounded-xl border p-4 shadow-lg border-slate-200 bg-white shadow-slate-200/50 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-slate-900/50">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Accesos rápidos</h2>
-            <div className="mt-3 grid gap-2 text-sm text-slate-200 dark:text-slate-900">
-              <Link className="rounded-lg px-3 py-2 bg-white/10 hover:bg-white/15 dark:bg-slate-50 dark:hover:bg-slate-100" href="/ordenes">
+            <div className="mt-3 grid gap-2 text-sm text-slate-900 dark:text-slate-200">
+              <Link className="rounded-lg px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/15" href="/ordenes">
                 Órdenes
               </Link>
-              <Link className="rounded-lg px-3 py-2 bg-white/10 hover:bg-white/15 dark:bg-slate-50 dark:hover:bg-slate-100" href="/transferencias">
+              <Link className="rounded-lg px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/15" href="/transferencias">
                 Transferencias
               </Link>
-              <Link className="rounded-lg px-3 py-2 bg-white/10 hover:bg-white/15 dark:bg-slate-50 dark:hover:bg-slate-100" href="/reportes">
+              <Link className="rounded-lg px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/15" href="/reportes">
                 Reportes
               </Link>
             </div>
