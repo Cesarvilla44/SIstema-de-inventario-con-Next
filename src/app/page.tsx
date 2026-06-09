@@ -273,7 +273,7 @@ export default function InventoryPage() {
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition bg-white/15 text-white font-semibold dark:bg-slate-200 dark:text-slate-900 dark:font-semibold hover:bg-white/10 dark:hover:bg-slate-100"
+              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition bg-slate-200 text-slate-900 font-semibold dark:bg-white/15 dark:text-white dark:font-semibold hover:bg-slate-100 dark:hover:bg-white/10"
             >
               {item.label}
             </Link>
@@ -307,10 +307,10 @@ export default function InventoryPage() {
 
           <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
             <Card className="border text-slate-900 shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/40 dark:border-white/10 dark:bg-slate-900/5 dark:text-slate-50 dark:shadow-slate-900/40">
-              <CardHeader className="border-b border-white/5 dark:border-slate-200">
+              <CardHeader className="border-b border-slate-200 dark:border-white/5">
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                   <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">Listado de productos</CardTitle>
-                  <div className="flex flex-wrap gap-3 text-sm text-slate-200 dark:text-slate-600">
+                  <div className="flex flex-wrap gap-3 text-sm text-slate-600 dark:text-slate-200">
                     <div className="flex flex-1 min-w-[220px] items-center gap-2">
                       <Input
                         placeholder="Buscar nombre o descripción"
@@ -350,22 +350,22 @@ export default function InventoryPage() {
                         onChange={(e) => filters.setMinStock(e.target.value ? Number(e.target.value) : null)}
                       />
                     </div>
-                    <Button variant="ghost" className="text-xs text-slate-200 dark:text-slate-600" onClick={() => filters.reset()}>
+                    <Button variant="ghost" className="text-xs text-slate-600 dark:text-slate-200" onClick={() => filters.reset()}>
                       Limpiar filtros
                     </Button>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="rounded-xl border shadow-lg overflow-hidden border-white/15 bg-slate-900/80 shadow-slate-900/40 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/40">
+                <div className="rounded-xl border shadow-lg overflow-hidden border-slate-200 bg-white shadow-slate-200/40 dark:border-white/15 dark:bg-slate-900/80 dark:shadow-slate-900/40">
                   <Table>
-                    <TableHeader className="sticky top-0 shadow-sm bg-[#050915] text-white dark:bg-slate-50 dark:text-slate-900">
+                    <TableHeader className="sticky top-0 shadow-sm bg-slate-50 text-slate-900 dark:bg-[#050915] dark:text-white">
                       <TableRow>
-                        <TableHead className="text-white drop-shadow-sm dark:text-slate-900">Producto</TableHead>
-                        <TableHead className="text-white drop-shadow-sm dark:text-slate-900">Categoria</TableHead>
-                        <TableHead className="text-right text-white drop-shadow-sm dark:text-slate-900">Precio</TableHead>
-                        <TableHead className="text-center text-white drop-shadow-sm dark:text-slate-900">Stock</TableHead>
-                        <TableHead className="text-left text-white drop-shadow-sm dark:text-slate-900">Acciones</TableHead>
+                        <TableHead className="text-slate-900 drop-shadow-sm dark:text-white">Producto</TableHead>
+                        <TableHead className="text-slate-900 drop-shadow-sm dark:text-white">Categoria</TableHead>
+                        <TableHead className="text-right text-slate-900 drop-shadow-sm dark:text-white">Precio</TableHead>
+                        <TableHead className="text-center text-slate-900 drop-shadow-sm dark:text-white">Stock</TableHead>
+                        <TableHead className="text-left text-slate-900 drop-shadow-sm dark:text-white">Acciones</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -383,17 +383,17 @@ export default function InventoryPage() {
                         </TableRow>
                       ) : (
                         products.map((product) => (
-                          <TableRow key={product.id} className="border-b border-white/10 bg-white/5/20 hover:bg-white/10 dark:border-slate-200 dark:hover:bg-slate-50">
+                          <TableRow key={product.id} className="border-b border-slate-200 bg-slate-50/20 hover:bg-slate-100 dark:border-white/10 dark:hover:bg-white/10">
                             <TableCell className="max-w-[240px]">
                               <div className="flex flex-col gap-1">
                                 <span className="text-base font-semibold text-slate-900 dark:text-white">{product.name}</span>
                                 {product.description ? (
-                                  <span className="text-xs line-clamp-2 text-slate-200 dark:text-slate-600">{product.description}</span>
+                                  <span className="text-xs line-clamp-2 text-slate-600 dark:text-slate-200">{product.description}</span>
                                 ) : null}
                               </div>
                             </TableCell>
                             <TableCell>
-                              <Badge className="bg-slate-800 text-slate-100 border border-white/20 dark:bg-slate-100 dark:text-slate-700 dark:border-slate-300">
+                              <Badge className="bg-slate-100 text-slate-700 border border-slate-300 dark:bg-slate-800 dark:text-slate-100 dark:border-white/20">
                                 {product.category?.name ?? "Sin categoría"}
                               </Badge>
                             </TableCell>
@@ -463,7 +463,7 @@ export default function InventoryPage() {
 
             <div className="space-y-4">
               <Card className="border shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/50 text-slate-900 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-50 dark:shadow-slate-900/50">
-                <CardHeader className="border-b border-white/5 dark:border-slate-200">
+                <CardHeader className="border-b border-slate-200 dark:border-white/5">
                   <CardTitle className="text-slate-900 dark:text-white">{editingProduct}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -530,7 +530,7 @@ export default function InventoryPage() {
                     </Select>
                   </div>
                   <div className="flex gap-2">
-                    <Button className="flex-1" onClick={() => productMutation.mutate(productForm)} disabled={productMutation.isPending}>
+                    <Button className="flex-1 bg-blue-500 hover:bg-blue-500/90 text-white shadow-md shadow-blue-900/30" onClick={() => productMutation.mutate(productForm)} disabled={productMutation.isPending}>
                       {productForm.id ? "Guardar cambios" : "Crear producto"}
                     </Button>
                     <Button variant="ghost" onClick={() => setProductForm(emptyProductForm)} disabled={productMutation.isPending} className="text-slate-600 dark:text-slate-400">
@@ -541,7 +541,7 @@ export default function InventoryPage() {
               </Card>
 
               <Card className="border shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/40 text-slate-900 dark:border-white/10 dark:bg-slate-900/5 dark:text-slate-50 dark:shadow-slate-900/40">
-                <CardHeader className="border-b border-white/5 dark:border-slate-200">
+                <CardHeader className="border-b border-slate-200 dark:border-white/5">
                   <CardTitle className="text-slate-900 dark:text-white">{editingCategory}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -564,16 +564,16 @@ export default function InventoryPage() {
                     />
                   </div>
                   <div className="flex gap-2">
-                    <Button className="flex-1" onClick={() => categoryMutation.mutate(categoryForm)} disabled={categoryMutation.isPending}>
+                    <Button className="flex-1 bg-blue-500 hover:bg-blue-500/90 text-white shadow-md shadow-blue-900/30" onClick={() => categoryMutation.mutate(categoryForm)} disabled={categoryMutation.isPending}>
                       {categoryForm.id ? "Guardar" : "Crear categoría"}
                     </Button>
                     <Button variant="ghost" onClick={() => setCategoryForm(emptyCategoryForm)} disabled={categoryMutation.isPending} className="text-slate-600 dark:text-slate-400">
                       Limpiar
                     </Button>
                   </div>
-                  <div className="rounded-xl border border-white/10 bg-slate-950/50 dark:border-slate-200 dark:bg-slate-50">
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-slate-950/50">
                     <div className="px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-600">Categorías</div>
-                    <div className="divide-y divide-white/5 dark:divide-slate-200">
+                    <div className="divide-y divide-slate-200 dark:divide-white/5">
                       {loadingCategories ? (
                         <div className="p-3 text-sm text-slate-400 dark:text-slate-600">Cargando...</div>
                       ) : categories.length === 0 ? (
@@ -582,7 +582,7 @@ export default function InventoryPage() {
                         categories.map((cat) => (
                           <div key={cat.id} className="flex items-center justify-between px-3 py-2 text-sm">
                             <div>
-                              <p className="font-medium text-slate-50 dark:text-slate-900">{cat.name}</p>
+                              <p className="font-medium text-slate-900 dark:text-slate-50">{cat.name}</p>
                               {cat.description ? <p className="text-xs text-slate-400 dark:text-slate-600">{cat.description}</p> : null}
                             </div>
                             <div className="flex gap-2">
