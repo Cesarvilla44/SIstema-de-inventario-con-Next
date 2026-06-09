@@ -112,13 +112,13 @@ const emptyCategoryForm = {
   description: "",
 };
 
-function StatCard({ label, value, accent, theme }: { label: string; value: string | number; accent: string; theme: string }) {
+function StatCard({ label, value, accent }: { label: string; value: string | number; accent: string }) {
   return (
-    <div className={`rounded-xl border p-4 shadow-lg ${theme === "dark" ? "border-white/10 bg-gradient-to-br from-white/10 to-white/5 shadow-slate-900/30" : "border-slate-200 bg-white shadow-slate-200/30"}`}>
-      <p className={`text-xs uppercase tracking-[0.25em] ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>{label}</p>
+    <div className="rounded-xl border p-4 shadow-lg border-white/10 bg-gradient-to-br from-white/10 to-white/5 shadow-slate-900/30 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/30">
+      <p className="text-xs uppercase tracking-[0.25em] text-slate-300 dark:text-slate-600">{label}</p>
       <div className="mt-2 flex items-end gap-2">
-        <span className={`text-2xl font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>{value}</span>
-        <span className={`inline-flex h-6 items-center rounded-full bg-gradient-to-r ${accent} px-2 text-[11px] font-semibold text-white/90`}>OK</span>
+        <span className="text-2xl font-semibold text-white dark:text-slate-900">{value}</span>
+        <span className="inline-flex h-6 items-center rounded-full bg-gradient-to-r px-2 text-[11px] font-semibold text-white/90">{accent}OK</span>
       </div>
     </div>
   );
@@ -130,7 +130,7 @@ export default function InventoryPage() {
   const { data: categories = [], isLoading: loadingCategories } = useCategoriesQuery();
   const productsKey = ["products", filters.search, filters.categoryId, filters.minStock];
   const { data: products = [], isLoading: loadingProducts } = useProductsQuery(filters);
-  const { theme, setTheme } = useThemeStore();
+  const { setTheme } = useThemeStore();
 
   const [productForm, setProductForm] = useState(emptyProductForm);
   const [categoryForm, setCategoryForm] = useState(emptyCategoryForm);
@@ -258,28 +258,22 @@ export default function InventoryPage() {
   const editingCategory = categoryForm.id ? "Editando categoría" : "Nueva categoría";
 
   return (
-    <main className={`min-h-screen ${theme === "dark" ? "bg-[#0b1f3d] text-slate-50" : "bg-slate-100 text-slate-900"} overflow-hidden`}>
+    <main className="min-h-screen bg-[#0b1f3d] text-slate-50 dark:bg-slate-100 dark:text-slate-900 overflow-hidden">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        {theme === "dark" ? (
-          <>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(59,130,246,0.3),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.3),transparent_32%),radial-gradient(circle_at_60%_80%,rgba(99,102,241,0.32),transparent_34%)]" />
-            <div className="absolute inset-x-0 bottom-[-8%] h-[38%] bg-[radial-gradient(120%_120%_at_50%_20%,rgba(59,130,246,0.45),transparent)] blur-3xl opacity-80" />
-            <div className="absolute inset-0 animate-[wave_18s_ease-in-out_infinite] bg-[linear-gradient(120deg,rgba(255,255,255,0.1),transparent_35%),linear-gradient(240deg,rgba(255,255,255,0.07),transparent_32%)] opacity-45" />
-          </>
-        ) : null}
+        <>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(59,130,246,0.3),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.3),transparent_32%),radial-gradient(circle_at_60%_80%,rgba(99,102,241,0.32),transparent_34%)]" />
+          <div className="absolute inset-x-0 bottom-[-8%] h-[38%] bg-[radial-gradient(120%_120%_at_50%_20%,rgba(59,130,246,0.45),transparent)] blur-3xl opacity-80" />
+          <div className="absolute inset-0 animate-[wave_18s_ease-in-out_infinite] bg-[linear-gradient(120deg,rgba(255,255,255,0.1),transparent_35%),linear-gradient(240deg,rgba(255,255,255,0.07),transparent_32%)] opacity-45" />
+        </>
       </div>
       <div className="relative mx-auto flex max-w-7xl gap-4 px-4 py-6 md:px-6">
-        <aside className={`hidden w-60 shrink-0 flex-col gap-2 rounded-2xl border p-4 shadow-2xl backdrop-blur md:flex ${theme === "dark" ? "border-white/10 bg-white/5 shadow-slate-900/40" : "border-slate-200 bg-white shadow-slate-200/40"}`}>
-          <div className={`text-sm font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>Menú</div>
+        <aside className="hidden w-60 shrink-0 flex-col gap-2 rounded-2xl border p-4 shadow-2xl backdrop-blur md:flex border-white/10 bg-white/5 shadow-slate-900/40 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/40">
+          <div className="text-sm font-semibold text-white dark:text-slate-900">Menú</div>
           {[{ label: "General", href: "/general" }, { label: "Inventario", href: "/" }, { label: "Órdenes", href: "/ordenes" }, { label: "Transferencias", href: "/transferencias" }, { label: "Reportes", href: "/reportes" }].map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition ${
-                item.href === "/" 
-                  ? theme === "dark" ? "bg-white/15 text-white font-semibold" : "bg-slate-200 text-slate-900 font-semibold"
-                  : theme === "dark" ? "text-slate-200 hover:bg-white/10" : "text-slate-600 hover:bg-slate-100"
-              }`}
+              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition bg-white/15 text-white font-semibold dark:bg-slate-200 dark:text-slate-900 dark:font-semibold hover:bg-white/10 dark:hover:bg-slate-100"
             >
               {item.label}
             </Link>
@@ -287,54 +281,54 @@ export default function InventoryPage() {
         </aside>
 
         <div className="flex-1 space-y-5">
-          <div className={`flex flex-col gap-3 rounded-2xl border p-4 shadow-2xl backdrop-blur ${theme === "dark" ? "border-white/10 bg-slate-900/60 shadow-slate-900/50" : "border-slate-200 bg-white shadow-slate-200/50"}`}>
+          <div className="flex flex-col gap-3 rounded-2xl border p-4 shadow-2xl backdrop-blur border-white/10 bg-slate-900/60 shadow-slate-900/50 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/50">
             <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex flex-col gap-1">
-                <div className={`flex items-center gap-2 text-xs uppercase tracking-[0.3em] ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>
+                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-slate-300 dark:text-slate-600">
                   Inventario
                   <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-100">Activo</span>
                 </div>
-                <h1 className={`text-3xl font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>Panel de productos</h1>
-                <p className={`text-sm ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>Controla existencias, categorías y stock en tiempo real.</p>
+                <h1 className="text-3xl font-semibold text-white dark:text-slate-900">Panel de productos</h1>
+                <p className="text-sm text-slate-300 dark:text-slate-600">Controla existencias, categorías y stock en tiempo real.</p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button variant="outline" className={theme === "dark" ? "border-white/20 bg-white/10" : "border-slate-300 bg-slate-50"} onClick={() => setSettingsModalOpen(true)}>Ajustes</Button>
+                <Button variant="outline" className="border-white/20 bg-white/10 dark:border-slate-300 dark:bg-slate-50" onClick={() => setSettingsModalOpen(true)}>Ajustes</Button>
                 <Button onClick={() => { setCategoryForm(emptyCategoryForm); setCategoryModalOpen(true); }}>+ Categoría</Button>
                 <Button onClick={() => { setProductForm(emptyProductForm); setProductModalOpen(true); }} className="bg-emerald-500 hover:bg-emerald-500/90 text-emerald-50">+ Producto</Button>
               </div>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Productos" value={productCount} accent="from-blue-500/60 to-blue-400/20" theme={theme} />
-              <StatCard label="Categorías" value={categoryCount} accent="from-emerald-500/60 to-emerald-400/20" theme={theme} />
-              <StatCard label="Stock total" value={totalStock} accent="from-indigo-500/60 to-indigo-400/20" theme={theme} />
-              <StatCard label="Valor estimado" value={`$${totalValue.toFixed(2)}`} accent="from-amber-500/60 to-amber-400/20" theme={theme} />
+              <StatCard label="Productos" value={productCount} accent="from-blue-500/60 to-blue-400/20" />
+              <StatCard label="Categorías" value={categoryCount} accent="from-emerald-500/60 to-emerald-400/20" />
+              <StatCard label="Stock total" value={totalStock} accent="from-indigo-500/60 to-indigo-400/20" />
+              <StatCard label="Valor estimado" value={`$${totalValue.toFixed(2)}`} accent="from-amber-500/60 to-amber-400/20" />
             </div>
           </div>
 
           <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-            <Card className={`border text-slate-50 shadow-2xl backdrop-blur ${theme === "dark" ? "border-white/10 bg-white/5 shadow-slate-900/40" : "border-slate-200 bg-white shadow-slate-200/40"}`}>
-              <CardHeader className={`border-b ${theme === "dark" ? "border-white/5" : "border-slate-200"}`}>
+            <Card className="border text-slate-50 shadow-2xl backdrop-blur border-white/10 bg-white/5 shadow-slate-900/40 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/40">
+              <CardHeader className="border-b border-white/5 dark:border-slate-200">
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-                  <CardTitle className={`text-xl font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>Listado de productos</CardTitle>
-                  <div className={`flex flex-wrap gap-3 text-sm ${theme === "dark" ? "text-slate-200" : "text-slate-600"}`}>
+                  <CardTitle className="text-xl font-semibold text-white dark:text-slate-900">Listado de productos</CardTitle>
+                  <div className="flex flex-wrap gap-3 text-sm text-slate-200 dark:text-slate-600">
                     <div className="flex flex-1 min-w-[220px] items-center gap-2">
                       <Input
                         placeholder="Buscar nombre o descripción"
                         value={filters.search}
                         onChange={(e) => filters.setSearch(e.target.value)}
-                        className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                        className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                       />
                     </div>
                     <div className="flex items-center gap-2 min-w-[200px]">
-                      <Label className={`text-xs ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>Categoría</Label>
+                      <Label className="text-xs text-slate-300 dark:text-slate-600">Categoría</Label>
                       <Select
                         value={filters.categoryId ?? "all"}
                         onValueChange={(val) => filters.setCategoryId(val === "all" ? null : val)}
                       >
-                        <SelectTrigger className={`w-[200px] ${theme === "dark" ? "bg-slate-900" : "bg-slate-50"}`}>
+                        <SelectTrigger className="w-[200px] bg-slate-900 dark:bg-slate-50">
                           <SelectValue placeholder="Todas" />
                         </SelectTrigger>
-                        <SelectContent className={theme === "dark" ? "bg-slate-900 text-slate-50 border border-white/10" : "bg-white text-slate-900 border border-slate-200"}>
+                        <SelectContent className="bg-slate-900 text-slate-50 border border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
                           <SelectGroup>
                             <SelectLabel>Todas</SelectLabel>
                             <SelectItem value="all">Todas</SelectItem>
@@ -348,58 +342,58 @@ export default function InventoryPage() {
                       </Select>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Label className={`text-xs ${theme === "dark" ? "text-slate-300" : "text-slate-600"}`}>Stock ≥</Label>
+                      <Label className="text-xs text-slate-300 dark:text-slate-600">Stock ≥</Label>
                       <Input
                         type="number"
-                        className={`w-28 ${theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}`}
+                        className="w-28 bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                         value={filters.minStock ?? ""}
                         onChange={(e) => filters.setMinStock(e.target.value ? Number(e.target.value) : null)}
                       />
                     </div>
-                    <Button variant="ghost" className={`text-xs ${theme === "dark" ? "text-slate-200" : "text-slate-600"}`} onClick={() => filters.reset()}>
+                    <Button variant="ghost" className="text-xs text-slate-200 dark:text-slate-600" onClick={() => filters.reset()}>
                       Limpiar filtros
                     </Button>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className={`rounded-xl border shadow-lg overflow-hidden ${theme === "dark" ? "border-white/15 bg-slate-900/80 shadow-slate-900/40" : "border-slate-200 bg-white shadow-slate-200/40"}`}>
+                <div className="rounded-xl border shadow-lg overflow-hidden border-white/15 bg-slate-900/80 shadow-slate-900/40 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/40">
                   <Table>
-                    <TableHeader className={`sticky top-0 shadow-sm ${theme === "dark" ? "bg-[#050915] text-white" : "bg-slate-50 text-slate-900"}`}>
+                    <TableHeader className="sticky top-0 shadow-sm bg-[#050915] text-white dark:bg-slate-50 dark:text-slate-900">
                       <TableRow>
-                        <TableHead className={theme === "dark" ? "text-white drop-shadow-sm" : "text-slate-900"}>Producto</TableHead>
-                        <TableHead className={theme === "dark" ? "text-white drop-shadow-sm" : "text-slate-900"}>Categoria</TableHead>
-                        <TableHead className={`text-right ${theme === "dark" ? "text-white drop-shadow-sm" : "text-slate-900"}`}>Precio</TableHead>
-                        <TableHead className={`text-center ${theme === "dark" ? "text-white drop-shadow-sm" : "text-slate-900"}`}>Stock</TableHead>
-                        <TableHead className={`text-left ${theme === "dark" ? "text-white drop-shadow-sm" : "text-slate-900"}`}>Acciones</TableHead>
+                        <TableHead className="text-white drop-shadow-sm dark:text-slate-900">Producto</TableHead>
+                        <TableHead className="text-white drop-shadow-sm dark:text-slate-900">Categoria</TableHead>
+                        <TableHead className="text-right text-white drop-shadow-sm dark:text-slate-900">Precio</TableHead>
+                        <TableHead className="text-center text-white drop-shadow-sm dark:text-slate-900">Stock</TableHead>
+                        <TableHead className="text-left text-white drop-shadow-sm dark:text-slate-900">Acciones</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {loadingProducts ? (
                         <TableRow>
-                          <TableCell colSpan={5} className={`text-center text-sm ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                          <TableCell colSpan={5} className="text-center text-sm text-slate-400 dark:text-slate-600">
                             Cargando productos...
                           </TableCell>
                         </TableRow>
                       ) : products.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={5} className={`text-center text-sm ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>
+                          <TableCell colSpan={5} className="text-center text-sm text-slate-400 dark:text-slate-600">
                             No hay productos con los filtros actuales.
                           </TableCell>
                         </TableRow>
                       ) : (
                         products.map((product) => (
-                          <TableRow key={product.id} className={`border-b ${theme === "dark" ? "border-white/10 bg-white/5/20 hover:bg-white/10" : "border-slate-200 hover:bg-slate-50"}`}>
+                          <TableRow key={product.id} className="border-b border-white/10 bg-white/5/20 hover:bg-white/10 dark:border-slate-200 dark:hover:bg-slate-50">
                             <TableCell className="max-w-[240px]">
                               <div className="flex flex-col gap-1">
-                                <span className={`text-base font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>{product.name}</span>
+                                <span className="text-base font-semibold text-white dark:text-slate-900">{product.name}</span>
                                 {product.description ? (
-                                  <span className={`text-xs line-clamp-2 ${theme === "dark" ? "text-slate-200" : "text-slate-600"}`}>{product.description}</span>
+                                  <span className="text-xs line-clamp-2 text-slate-200 dark:text-slate-600">{product.description}</span>
                                 ) : null}
                               </div>
                             </TableCell>
                             <TableCell>
-                              <Badge className={theme === "dark" ? "bg-slate-800 text-slate-100 border border-white/20" : "bg-slate-100 text-slate-700 border border-slate-300"}>
+                              <Badge className="bg-slate-800 text-slate-100 border border-white/20 dark:bg-slate-100 dark:text-slate-700 dark:border-slate-300">
                                 {product.category?.name ?? "Sin categoría"}
                               </Badge>
                             </TableCell>
@@ -416,7 +410,7 @@ export default function InventoryPage() {
                                 >
                                   -
                                 </Button>
-                                <span className={`text-base font-semibold ${theme === "dark" ? "text-white" : "text-slate-900"}`}>{product.stock}</span>
+                                <span className="text-base font-semibold text-white dark:text-slate-900">{product.stock}</span>
                                 <Button
                                   variant="ghost"
                                   size="icon-sm"
@@ -462,68 +456,68 @@ export default function InventoryPage() {
                       )}
                     </TableBody>
                   </Table>
-                  <p className={`px-4 py-3 text-sm ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>Actualización de stock optimista con rollback.</p>
+                  <p className="px-4 py-3 text-sm text-slate-400 dark:text-slate-600">Actualización de stock optimista con rollback.</p>
                 </div>
               </CardContent>
             </Card>
 
             <div className="space-y-4">
-              <Card className={`border shadow-2xl backdrop-blur ${theme === "dark" ? "border-white/10 bg-slate-900/70 text-slate-50 shadow-slate-950/50" : "border-slate-200 bg-white text-slate-900 shadow-slate-200/50"}`}>
-                <CardHeader className={`border-b ${theme === "dark" ? "border-white/5" : "border-slate-200"}`}>
-                  <CardTitle className={theme === "dark" ? "text-white" : "text-slate-900"}>{editingProduct}</CardTitle>
+              <Card className="border shadow-2xl backdrop-blur border-white/10 bg-slate-900/70 text-slate-50 shadow-slate-950/50 dark:border-slate-200 dark:bg-white dark:text-slate-900 dark:shadow-slate-200/50">
+                <CardHeader className="border-b border-white/5 dark:border-slate-200">
+                  <CardTitle className="text-white dark:text-slate-900">{editingProduct}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="space-y-1">
-                    <Label className={theme === "dark" ? "" : "text-slate-700"}>Nombre</Label>
+                    <Label className="text-slate-700 dark:text-slate-300">Nombre</Label>
                     <Input
                       value={productForm.name}
                       onChange={(e) => setProductForm((p) => ({ ...p, name: e.target.value }))}
                       placeholder="Ej. Monitor 27"
-                      className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                      className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label className={theme === "dark" ? "" : "text-slate-700"}>Descripción</Label>
+                    <Label className="text-slate-700 dark:text-slate-300">Descripción</Label>
                     <Input
                       value={productForm.description}
                       onChange={(e) => setProductForm((p) => ({ ...p, description: e.target.value }))}
                       placeholder="Opcional"
-                      className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                      className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <Label className={theme === "dark" ? "" : "text-slate-700"}>Precio</Label>
+                      <Label className="text-slate-700 dark:text-slate-300">Precio</Label>
                       <Input
                         type="number"
                         value={productForm.price}
                         onChange={(e) => setProductForm((p) => ({ ...p, price: e.target.value }))}
                         min={0}
                         step={0.01}
-                        className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                        className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                       />
                     </div>
                     <div className="space-y-1">
-                      <Label className={theme === "dark" ? "" : "text-slate-700"}>Stock</Label>
+                      <Label className="text-slate-700 dark:text-slate-300">Stock</Label>
                       <Input
                         type="number"
                         value={productForm.stock}
                         onChange={(e) => setProductForm((p) => ({ ...p, stock: e.target.value }))}
                         min={0}
-                        className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                        className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                       />
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <Label className={theme === "dark" ? "" : "text-slate-700"}>Categoría</Label>
+                    <Label className="text-slate-700 dark:text-slate-300">Categoría</Label>
                     <Select
                       value={productForm.categoryId || undefined}
                       onValueChange={(val) => setProductForm((p) => ({ ...p, categoryId: val }))}
                     >
-                      <SelectTrigger className={theme === "dark" ? "bg-slate-900" : "bg-slate-50"}>
+                      <SelectTrigger className="bg-slate-900 dark:bg-slate-50">
                         <SelectValue placeholder={loadingCategories ? "Cargando..." : "Selecciona"} />
                       </SelectTrigger>
-                      <SelectContent className={theme === "dark" ? "bg-slate-900 text-slate-50 border border-white/10" : "bg-white text-slate-900 border border-slate-200"}>
+                      <SelectContent className="bg-slate-900 text-slate-50 border border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
                         <SelectGroup>
                           <SelectLabel>Categorías</SelectLabel>
                           {categories.map((cat) => (
@@ -539,57 +533,57 @@ export default function InventoryPage() {
                     <Button className="flex-1" onClick={() => productMutation.mutate(productForm)} disabled={productMutation.isPending}>
                       {productForm.id ? "Guardar cambios" : "Crear producto"}
                     </Button>
-                    <Button variant="ghost" onClick={() => setProductForm(emptyProductForm)} disabled={productMutation.isPending} className={theme === "dark" ? "" : "text-slate-600"}>
+                    <Button variant="ghost" onClick={() => setProductForm(emptyProductForm)} disabled={productMutation.isPending} className="text-slate-600 dark:text-slate-400">
                       Limpiar
                     </Button>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className={`border shadow-2xl backdrop-blur ${theme === "dark" ? "border-white/10 bg-white/5 text-slate-50 shadow-slate-950/40" : "border-slate-200 bg-white text-slate-900 shadow-slate-200/40"}`}>
-                <CardHeader className={`border-b ${theme === "dark" ? "border-white/5" : "border-slate-200"}`}>
-                  <CardTitle className={theme === "dark" ? "text-white" : "text-slate-900"}>{editingCategory}</CardTitle>
+              <Card className="border shadow-2xl backdrop-blur border-white/10 bg-white/5 text-slate-50 shadow-slate-950/40 dark:border-slate-200 dark:bg-white dark:text-slate-900 dark:shadow-slate-200/40">
+                <CardHeader className="border-b border-white/5 dark:border-slate-200">
+                  <CardTitle className="text-white dark:text-slate-900">{editingCategory}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="space-y-1">
-                    <Label className={theme === "dark" ? "" : "text-slate-700"}>Nombre</Label>
+                    <Label className="text-slate-700 dark:text-slate-300">Nombre</Label>
                     <Input
                       value={categoryForm.name}
                       onChange={(e) => setCategoryForm((c) => ({ ...c, name: e.target.value }))}
                       placeholder="Ej. Oficina"
-                      className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                      className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label className={theme === "dark" ? "" : "text-slate-700"}>Descripción</Label>
+                    <Label className="text-slate-700 dark:text-slate-300">Descripción</Label>
                     <Input
                       value={categoryForm.description}
                       onChange={(e) => setCategoryForm((c) => ({ ...c, description: e.target.value }))}
                       placeholder="Opcional"
-                      className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                      className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                     />
                   </div>
                   <div className="flex gap-2">
                     <Button className="flex-1" onClick={() => categoryMutation.mutate(categoryForm)} disabled={categoryMutation.isPending}>
                       {categoryForm.id ? "Guardar" : "Crear categoría"}
                     </Button>
-                    <Button variant="ghost" onClick={() => setCategoryForm(emptyCategoryForm)} disabled={categoryMutation.isPending} className={theme === "dark" ? "" : "text-slate-600"}>
+                    <Button variant="ghost" onClick={() => setCategoryForm(emptyCategoryForm)} disabled={categoryMutation.isPending} className="text-slate-600 dark:text-slate-400">
                       Limpiar
                     </Button>
                   </div>
-                  <div className={`rounded-xl border ${theme === "dark" ? "border-white/10 bg-slate-950/50" : "border-slate-200 bg-slate-50"}`}>
-                    <div className={`px-3 py-2 text-xs uppercase tracking-[0.2em] ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>Categorías</div>
-                    <div className={`divide-y ${theme === "dark" ? "divide-white/5" : "divide-slate-200"}`}>
+                  <div className="rounded-xl border border-white/10 bg-slate-950/50 dark:border-slate-200 dark:bg-slate-50">
+                    <div className="px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-600">Categorías</div>
+                    <div className="divide-y divide-white/5 dark:divide-slate-200">
                       {loadingCategories ? (
-                        <div className={`p-3 text-sm ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>Cargando...</div>
+                        <div className="p-3 text-sm text-slate-400 dark:text-slate-600">Cargando...</div>
                       ) : categories.length === 0 ? (
-                        <div className={`p-3 text-sm ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>Sin categorías</div>
+                        <div className="p-3 text-sm text-slate-400 dark:text-slate-600">Sin categorías</div>
                       ) : (
                         categories.map((cat) => (
                           <div key={cat.id} className="flex items-center justify-between px-3 py-2 text-sm">
                             <div>
-                              <p className={`font-medium ${theme === "dark" ? "text-slate-50" : "text-slate-900"}`}>{cat.name}</p>
-                              {cat.description ? <p className={`text-xs ${theme === "dark" ? "text-slate-400" : "text-slate-600"}`}>{cat.description}</p> : null}
+                              <p className="font-medium text-slate-50 dark:text-slate-900">{cat.name}</p>
+                              {cat.description ? <p className="text-xs text-slate-400 dark:text-slate-600">{cat.description}</p> : null}
                             </div>
                             <div className="flex gap-2">
                               <Button
@@ -624,62 +618,62 @@ export default function InventoryPage() {
       </div>
 
       <Dialog open={productModalOpen} onOpenChange={setProductModalOpen}>
-        <DialogContent className={`border sm:max-w-md ${theme === "dark" ? "bg-slate-900 text-slate-50 border-white/10" : "bg-white text-slate-900 border-slate-200"}`}>
+        <DialogContent className="border sm:max-w-md bg-slate-900 text-slate-50 border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
           <DialogHeader>
-            <DialogTitle className={theme === "dark" ? "text-white" : "text-slate-900"}>{editingProduct}</DialogTitle>
+            <DialogTitle className="text-white dark:text-slate-900">{editingProduct}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1">
-              <Label className={theme === "dark" ? "" : "text-slate-700"}>Nombre</Label>
+              <Label className="text-slate-700 dark:text-slate-300">Nombre</Label>
               <Input
                 value={productForm.name}
                 onChange={(e) => setProductForm((p) => ({ ...p, name: e.target.value }))}
                 placeholder="Ej. Monitor 27"
-                className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
               />
             </div>
             <div className="space-y-1">
-              <Label className={theme === "dark" ? "" : "text-slate-700"}>Descripción</Label>
+              <Label className="text-slate-700 dark:text-slate-300">Descripción</Label>
               <Input
                 value={productForm.description}
                 onChange={(e) => setProductForm((p) => ({ ...p, description: e.target.value }))}
                 placeholder="Opcional"
-                className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
-                <Label className={theme === "dark" ? "" : "text-slate-700"}>Precio</Label>
+                <Label className="text-slate-700 dark:text-slate-300">Precio</Label>
                 <Input
                   type="number"
                   value={productForm.price}
                   onChange={(e) => setProductForm((p) => ({ ...p, price: e.target.value }))}
                   min={0}
                   step={0.01}
-                  className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                  className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                 />
               </div>
               <div className="space-y-1">
-                <Label className={theme === "dark" ? "" : "text-slate-700"}>Stock</Label>
+                <Label className="text-slate-700 dark:text-slate-300">Stock</Label>
                 <Input
                   type="number"
                   value={productForm.stock}
                   onChange={(e) => setProductForm((p) => ({ ...p, stock: e.target.value }))}
                   min={0}
-                  className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                  className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
                 />
               </div>
             </div>
             <div className="space-y-1">
-              <Label className={theme === "dark" ? "" : "text-slate-700"}>Categoría</Label>
+              <Label className="text-slate-700 dark:text-slate-300">Categoría</Label>
               <Select
                 value={productForm.categoryId || undefined}
                 onValueChange={(val) => setProductForm((p) => ({ ...p, categoryId: val }))}
               >
-                <SelectTrigger className={theme === "dark" ? "bg-slate-900" : "bg-slate-50"}>
+                <SelectTrigger className="bg-slate-900 dark:bg-slate-50">
                   <SelectValue placeholder={loadingCategories ? "Cargando..." : "Selecciona"} />
                 </SelectTrigger>
-                <SelectContent className={theme === "dark" ? "bg-slate-900 text-slate-50 border border-white/10" : "bg-white text-slate-900 border border-slate-200"}>
+                <SelectContent className="bg-slate-900 text-slate-50 border border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
                   <SelectGroup>
                     <SelectLabel>Categorías</SelectLabel>
                     {categories.map((cat) => (
@@ -693,7 +687,7 @@ export default function InventoryPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => { setProductForm(emptyProductForm); setProductModalOpen(false); }} disabled={productMutation.isPending} className={theme === "dark" ? "" : "text-slate-600"}>
+            <Button variant="ghost" onClick={() => { setProductForm(emptyProductForm); setProductModalOpen(false); }} disabled={productMutation.isPending} className="text-slate-600 dark:text-slate-400">
               Cancelar
             </Button>
             <Button onClick={() => productMutation.mutate(productForm)} disabled={productMutation.isPending}>
@@ -704,32 +698,32 @@ export default function InventoryPage() {
       </Dialog>
 
       <Dialog open={categoryModalOpen} onOpenChange={setCategoryModalOpen}>
-        <DialogContent className={`border sm:max-w-md ${theme === "dark" ? "bg-slate-900 text-slate-50 border-white/10" : "bg-white text-slate-900 border-slate-200"}`}>
+        <DialogContent className="border sm:max-w-md bg-slate-900 text-slate-50 border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
           <DialogHeader>
-            <DialogTitle className={theme === "dark" ? "text-white" : "text-slate-900"}>{editingCategory}</DialogTitle>
+            <DialogTitle className="text-white dark:text-slate-900">{editingCategory}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1">
-              <Label className={theme === "dark" ? "" : "text-slate-700"}>Nombre</Label>
+              <Label className="text-slate-700 dark:text-slate-300">Nombre</Label>
               <Input
                 value={categoryForm.name}
                 onChange={(e) => setCategoryForm((c) => ({ ...c, name: e.target.value }))}
                 placeholder="Ej. Oficina"
-                className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
               />
             </div>
             <div className="space-y-1">
-              <Label className={theme === "dark" ? "" : "text-slate-700"}>Descripción</Label>
+              <Label className="text-slate-700 dark:text-slate-300">Descripción</Label>
               <Input
                 value={categoryForm.description}
                 onChange={(e) => setCategoryForm((c) => ({ ...c, description: e.target.value }))}
                 placeholder="Opcional"
-                className={theme === "dark" ? "bg-slate-900/60 border-white/10" : "bg-slate-50 border-slate-300"}
+                className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
               />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => { setCategoryForm(emptyCategoryForm); setCategoryModalOpen(false); }} disabled={categoryMutation.isPending} className={theme === "dark" ? "" : "text-slate-600"}>
+            <Button variant="ghost" onClick={() => { setCategoryForm(emptyCategoryForm); setCategoryModalOpen(false); }} disabled={categoryMutation.isPending} className="text-slate-600 dark:text-slate-400">
               Cancelar
             </Button>
             <Button onClick={() => categoryMutation.mutate(categoryForm)} disabled={categoryMutation.isPending}>
@@ -740,23 +734,23 @@ export default function InventoryPage() {
       </Dialog>
 
       <Dialog open={settingsModalOpen} onOpenChange={setSettingsModalOpen}>
-        <DialogContent className={`border sm:max-w-md ${theme === "dark" ? "bg-slate-900 text-slate-50 border-white/10" : "bg-white text-slate-900 border-slate-200"}`}>
+        <DialogContent className="border sm:max-w-md bg-slate-900 text-slate-50 border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
           <DialogHeader>
-            <DialogTitle className={theme === "dark" ? "text-white" : "text-slate-900"}>Configuración</DialogTitle>
+            <DialogTitle className="text-white dark:text-slate-900">Configuración</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
               <Label className="dark:text-slate-700">Tema</Label>
               <div className="flex gap-2">
                 <Button
-                  variant={theme === "dark" ? "default" : "outline"}
+                  variant="default"
                   className="flex-1"
                   onClick={() => setTheme("dark")}
                 >
                   Oscuro
                 </Button>
                 <Button
-                  variant={theme === "light" ? "default" : "outline"}
+                  variant="outline"
                   className="flex-1"
                   onClick={() => setTheme("light")}
                 >
@@ -766,7 +760,7 @@ export default function InventoryPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={() => setSettingsModalOpen(false)} className={theme === "dark" ? "" : "text-slate-600"}>
+            <Button onClick={() => setSettingsModalOpen(false)} className="text-slate-600 dark:text-slate-400">
               Cerrar
             </Button>
           </DialogFooter>
