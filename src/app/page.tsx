@@ -258,7 +258,7 @@ export default function InventoryPage() {
   const editingCategory = categoryForm.id ? "Editando categoría" : "Nueva categoría";
 
   return (
-    <main className="min-h-screen bg-[#0b1f3d] text-slate-50 dark:bg-slate-100 dark:text-slate-900 overflow-hidden">
+    <main className="min-h-screen bg-slate-100 text-slate-900 dark:bg-[#0b1f3d] dark:text-slate-50 overflow-hidden">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(59,130,246,0.3),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.3),transparent_32%),radial-gradient(circle_at_60%_80%,rgba(99,102,241,0.32),transparent_34%)]" />
@@ -268,7 +268,7 @@ export default function InventoryPage() {
       </div>
       <div className="relative mx-auto flex max-w-7xl gap-4 px-4 py-6 md:px-6">
         <aside className="hidden w-60 shrink-0 flex-col gap-2 rounded-2xl border p-4 shadow-2xl backdrop-blur md:flex border-white/10 bg-white/5 shadow-slate-900/40 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/40">
-          <div className="text-sm font-semibold text-white dark:text-slate-900">Menú</div>
+          <div className="text-sm font-semibold text-slate-900 dark:text-white">Menú</div>
           {[{ label: "General", href: "/general" }, { label: "Inventario", href: "/" }, { label: "Órdenes", href: "/ordenes" }, { label: "Transferencias", href: "/transferencias" }, { label: "Reportes", href: "/reportes" }].map((item) => (
             <Link
               key={item.href}
@@ -281,18 +281,18 @@ export default function InventoryPage() {
         </aside>
 
         <div className="flex-1 space-y-5">
-          <div className="flex flex-col gap-3 rounded-2xl border p-4 shadow-2xl backdrop-blur border-white/10 bg-slate-900/60 shadow-slate-900/50 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/50">
+          <div className="flex flex-col gap-3 rounded-2xl border p-4 shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/50 dark:border-white/10 dark:bg-slate-900/60 dark:shadow-slate-900/50">
             <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-slate-300 dark:text-slate-600">
+                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">
                   Inventario
                   <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-100">Activo</span>
                 </div>
-                <h1 className="text-3xl font-semibold text-white dark:text-slate-900">Panel de productos</h1>
-                <p className="text-sm text-slate-300 dark:text-slate-600">Controla existencias, categorías y stock en tiempo real.</p>
+                <h1 className="text-3xl font-semibold text-slate-900 dark:text-white">Panel de productos</h1>
+                <p className="text-sm text-slate-600 dark:text-slate-300">Controla existencias, categorías y stock en tiempo real.</p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button variant="outline" className="border-white/20 bg-white/10 dark:border-slate-300 dark:bg-slate-50" onClick={() => setSettingsModalOpen(true)}>Ajustes</Button>
+                <Button variant="outline" className="border-slate-300 bg-slate-50 dark:border-white/20 dark:bg-white/10" onClick={() => setSettingsModalOpen(true)}>Ajustes</Button>
                 <Button onClick={() => { setCategoryForm(emptyCategoryForm); setCategoryModalOpen(true); }}>+ Categoría</Button>
                 <Button onClick={() => { setProductForm(emptyProductForm); setProductModalOpen(true); }} className="bg-emerald-500 hover:bg-emerald-500/90 text-emerald-50">+ Producto</Button>
               </div>
@@ -309,7 +309,7 @@ export default function InventoryPage() {
             <Card className="border text-slate-50 shadow-2xl backdrop-blur border-white/10 bg-white/5 shadow-slate-900/40 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/40">
               <CardHeader className="border-b border-white/5 dark:border-slate-200">
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-                  <CardTitle className="text-xl font-semibold text-white dark:text-slate-900">Listado de productos</CardTitle>
+                  <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">Listado de productos</CardTitle>
                   <div className="flex flex-wrap gap-3 text-sm text-slate-200 dark:text-slate-600">
                     <div className="flex flex-1 min-w-[220px] items-center gap-2">
                       <Input
@@ -320,7 +320,7 @@ export default function InventoryPage() {
                       />
                     </div>
                     <div className="flex items-center gap-2 min-w-[200px]">
-                      <Label className="text-xs text-slate-300 dark:text-slate-600">Categoría</Label>
+                      <Label className="text-xs text-slate-600 dark:text-slate-300">Categoría</Label>
                       <Select
                         value={filters.categoryId ?? "all"}
                         onValueChange={(val) => filters.setCategoryId(val === "all" ? null : val)}
@@ -342,7 +342,7 @@ export default function InventoryPage() {
                       </Select>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Label className="text-xs text-slate-300 dark:text-slate-600">Stock ≥</Label>
+                      <Label className="text-xs text-slate-600 dark:text-slate-300">Stock ≥</Label>
                       <Input
                         type="number"
                         className="w-28 bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
@@ -386,7 +386,7 @@ export default function InventoryPage() {
                           <TableRow key={product.id} className="border-b border-white/10 bg-white/5/20 hover:bg-white/10 dark:border-slate-200 dark:hover:bg-slate-50">
                             <TableCell className="max-w-[240px]">
                               <div className="flex flex-col gap-1">
-                                <span className="text-base font-semibold text-white dark:text-slate-900">{product.name}</span>
+                                <span className="text-base font-semibold text-slate-900 dark:text-white">{product.name}</span>
                                 {product.description ? (
                                   <span className="text-xs line-clamp-2 text-slate-200 dark:text-slate-600">{product.description}</span>
                                 ) : null}
@@ -410,7 +410,7 @@ export default function InventoryPage() {
                                 >
                                   -
                                 </Button>
-                                <span className="text-base font-semibold text-white dark:text-slate-900">{product.stock}</span>
+                                <span className="text-base font-semibold text-slate-900 dark:text-white">{product.stock}</span>
                                 <Button
                                   variant="ghost"
                                   size="icon-sm"
@@ -464,7 +464,7 @@ export default function InventoryPage() {
             <div className="space-y-4">
               <Card className="border shadow-2xl backdrop-blur border-white/10 bg-slate-900/70 text-slate-50 shadow-slate-950/50 dark:border-slate-200 dark:bg-white dark:text-slate-900 dark:shadow-slate-200/50">
                 <CardHeader className="border-b border-white/5 dark:border-slate-200">
-                  <CardTitle className="text-white dark:text-slate-900">{editingProduct}</CardTitle>
+                  <CardTitle className="text-slate-900 dark:text-white">{editingProduct}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="space-y-1">
@@ -542,7 +542,7 @@ export default function InventoryPage() {
 
               <Card className="border shadow-2xl backdrop-blur border-white/10 bg-white/5 text-slate-50 shadow-slate-950/40 dark:border-slate-200 dark:bg-white dark:text-slate-900 dark:shadow-slate-200/40">
                 <CardHeader className="border-b border-white/5 dark:border-slate-200">
-                  <CardTitle className="text-white dark:text-slate-900">{editingCategory}</CardTitle>
+                  <CardTitle className="text-slate-900 dark:text-white">{editingCategory}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="space-y-1">
@@ -620,7 +620,7 @@ export default function InventoryPage() {
       <Dialog open={productModalOpen} onOpenChange={setProductModalOpen}>
         <DialogContent className="border sm:max-w-md bg-slate-900 text-slate-50 border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
           <DialogHeader>
-            <DialogTitle className="text-white dark:text-slate-900">{editingProduct}</DialogTitle>
+            <DialogTitle className="text-slate-900 dark:text-white">{editingProduct}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1">
@@ -700,7 +700,7 @@ export default function InventoryPage() {
       <Dialog open={categoryModalOpen} onOpenChange={setCategoryModalOpen}>
         <DialogContent className="border sm:max-w-md bg-slate-900 text-slate-50 border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
           <DialogHeader>
-            <DialogTitle className="text-white dark:text-slate-900">{editingCategory}</DialogTitle>
+            <DialogTitle className="text-slate-900 dark:text-white">{editingCategory}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1">
@@ -736,7 +736,7 @@ export default function InventoryPage() {
       <Dialog open={settingsModalOpen} onOpenChange={setSettingsModalOpen}>
         <DialogContent className="border sm:max-w-md bg-slate-900 text-slate-50 border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
           <DialogHeader>
-            <DialogTitle className="text-white dark:text-slate-900">Configuración</DialogTitle>
+            <DialogTitle className="text-slate-900 dark:text-white">Configuración</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
