@@ -17,10 +17,10 @@ export const useThemeStore = create<ThemeState>((set) => ({
     }).catch((err) => console.error("Error saving theme to cookie:", err));
     // Actualizar clase dark en el html
     const html = document.documentElement;
-    if (theme === "dark") {
-      html.classList.add("dark");
-    } else {
+    if (theme === "light") {
       html.classList.remove("dark");
+    } else {
+      html.classList.add("dark");
     }
   },
 }));
