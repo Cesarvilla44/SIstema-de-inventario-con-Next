@@ -241,18 +241,6 @@ export default function InventoryPage() {
     },
   });
 
-  const settingsMutation = useMutation({
-    mutationFn: async (newTheme: string) => {
-      return fetchJson("/api/settings", {
-        method: "PUT",
-        body: JSON.stringify({ theme: newTheme }),
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["settings"] });
-    },
-  });
-
   const totalStock = useMemo(
     () => products.reduce((acc, p) => acc + p.stock, 0),
     [products]
@@ -758,27 +746,19 @@ export default function InventoryPage() {
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label className={theme === "dark" ? "" : "text-slate-700"}>Tema</Label>
+              <Label className="dark:text-slate-700">Tema</Label>
               <div className="flex gap-2">
                 <Button
                   variant={theme === "dark" ? "default" : "outline"}
                   className="flex-1"
-                  onClick={() => {
-                    setTheme("dark");
-                    settingsMutation.mutate("dark");
-                  }}
-                  disabled={settingsMutation.isPending}
+                  onClick={() => setTheme("dark")}
                 >
                   Oscuro
                 </Button>
                 <Button
                   variant={theme === "light" ? "default" : "outline"}
                   className="flex-1"
-                  onClick={() => {
-                    setTheme("light");
-                    settingsMutation.mutate("light");
-                  }}
-                  disabled={settingsMutation.isPending}
+                  onClick={() => setTheme("light")}
                 >
                   Claro
                 </Button>
