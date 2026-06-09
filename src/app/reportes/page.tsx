@@ -94,11 +94,11 @@ export default function ReportsPage() {
     <main className="min-h-screen bg-slate-100 text-slate-900 dark:bg-[#0b1f3d] dark:text-slate-50">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10">
         <header className="rounded-2xl border p-6 shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/50 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-slate-900/50">
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Reportes</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-900 dark:text-slate-300">Reportes</p>
           <h1 className="text-3xl font-semibold text-slate-900 dark:text-white">Reportes y alertas</h1>
-          <p className="text-sm text-slate-600 dark:text-slate-300">Vista demo. Aquí irán gráficos, exportaciones y alertas.</p>
-          <div className="mt-4 flex gap-3 text-sm text-slate-200 dark:text-slate-600">
-            <Link href="/" className="rounded-lg border px-3 py-2 border-white/10 bg-white/10 hover:bg-white/15 dark:border-slate-300 dark:bg-slate-50 dark:hover:bg-slate-100">
+          <p className="text-sm text-slate-900 dark:text-slate-300">Vista demo. Aquí irán gráficos, exportaciones y alertas.</p>
+          <div className="mt-4 flex gap-3 text-sm text-slate-200 dark:text-slate-900">
+            <Link href="/" className="rounded-lg border px-3 py-2 border-slate-300 bg-slate-900 text-white hover:bg-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-slate-900 dark:hover:bg-white/15">
               Volver a Inventario
             </Link>
           </div>
@@ -136,8 +136,8 @@ export default function ReportsPage() {
                         {r.title}
                       </Link>
                     </td>
-                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{r.owner}</td>
-                    <td className="px-3 py-2 text-slate-600 dark:text-slate-300">{r.date}</td>
+                    <td className="px-3 py-2 text-slate-900 dark:text-slate-300">{r.owner}</td>
+                    <td className="px-3 py-2 text-slate-900 dark:text-slate-300">{r.date}</td>
                     <td className="px-3 py-2">
                       <Button
                         variant="destructive"
@@ -161,11 +161,11 @@ export default function ReportsPage() {
           <div className="w-full max-w-lg rounded-2xl border p-6 shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/50 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-slate-900/50">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Nuevo reporte</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-900 dark:text-slate-300">Nuevo reporte</p>
                 <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Crear reporte</h3>
-                <p className="text-xs text-slate-400 dark:text-slate-600">ID asignado automáticamente: {nextId}</p>
+                <p className="text-xs text-slate-400 dark:text-slate-900">ID asignado automáticamente: {nextId}</p>
               </div>
-              <button className="text-slate-300 hover:text-white dark:text-slate-600 dark:hover:text-slate-900" onClick={() => setOpen(false)}>
+              <button className="text-slate-300 hover:text-white dark:text-slate-900 dark:hover:text-slate-900" onClick={() => setOpen(false)}>
                 ✕
               </button>
             </div>
@@ -190,7 +190,7 @@ export default function ReportsPage() {
                 {errorMsg ? <p className="text-sm text-red-300">{errorMsg}</p> : null}
               </div>
               <div className="flex justify-end gap-2">
-                <Button variant="ghost" onClick={() => setOpen(false)} className="text-slate-600 dark:text-slate-400">
+                <Button variant="ghost" onClick={() => setOpen(false)} className="text-slate-900 dark:text-slate-400">
                   Cancelar
                 </Button>
                 <Button onClick={submit} disabled={!title.trim() || createReport.isPending} className="bg-emerald-500 hover:bg-emerald-500/90 text-white">

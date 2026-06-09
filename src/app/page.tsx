@@ -115,7 +115,7 @@ const emptyCategoryForm = {
 function StatCard({ label, value, accent }: { label: string; value: string | number; accent: string }) {
   return (
     <div className="rounded-xl border p-4 shadow-lg border-slate-200 bg-white shadow-slate-200/30 dark:border-white/10 dark:bg-slate-900 dark:from-slate-900/80 dark:to-slate-800/50 dark:shadow-slate-900/30">
-      <p className="text-xs uppercase tracking-[0.25em] text-slate-600 dark:text-slate-300">{label}</p>
+      <p className="text-xs uppercase tracking-[0.25em] text-slate-900 dark:text-slate-300">{label}</p>
       <div className="mt-2 flex items-end gap-2">
         <span className="text-2xl font-semibold text-slate-900 dark:text-white">{value}</span>
         <span className={`inline-flex h-6 items-center rounded-full bg-gradient-to-r px-2 text-[11px] font-semibold text-white/90 ${accent}`}>OK</span>
@@ -284,12 +284,12 @@ export default function InventoryPage() {
           <div className="flex flex-col gap-3 rounded-2xl border p-4 shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/50 dark:border-white/10 dark:bg-slate-900/60 dark:shadow-slate-900/50">
             <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">
+                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-slate-900 dark:text-slate-300">
                   Inventario
                   <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-100">Activo</span>
                 </div>
                 <h1 className="text-3xl font-semibold text-slate-900 dark:text-white">Panel de productos</h1>
-                <p className="text-sm text-slate-600 dark:text-slate-300">Controla existencias, categorías y stock en tiempo real.</p>
+                <p className="text-sm text-slate-900 dark:text-slate-300">Controla existencias, categorías y stock en tiempo real.</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 <Button variant="outline" className="border-slate-300 bg-slate-50 dark:border-white/20 dark:bg-white/10" onClick={() => setSettingsModalOpen(true)}>Ajustes</Button>
@@ -310,7 +310,7 @@ export default function InventoryPage() {
               <CardHeader className="border-b border-slate-200 dark:border-white/5">
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                   <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">Listado de productos</CardTitle>
-                  <div className="flex flex-wrap gap-3 text-sm text-slate-600 dark:text-slate-200">
+                  <div className="flex flex-wrap gap-3 text-sm text-slate-900 dark:text-slate-200">
                     <div className="flex flex-1 min-w-[220px] items-center gap-2">
                       <Input
                         placeholder="Buscar nombre o descripción"
@@ -320,7 +320,7 @@ export default function InventoryPage() {
                       />
                     </div>
                     <div className="flex items-center gap-2 min-w-[200px]">
-                      <Label className="text-xs text-slate-600 dark:text-slate-300">Categoría</Label>
+                      <Label className="text-xs text-slate-900 dark:text-slate-300">Categoría</Label>
                       <Select
                         value={filters.categoryId ?? "all"}
                         onValueChange={(val) => filters.setCategoryId(val === "all" ? null : val)}
@@ -342,7 +342,7 @@ export default function InventoryPage() {
                       </Select>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Label className="text-xs text-slate-600 dark:text-slate-300">Stock ≥</Label>
+                      <Label className="text-xs text-slate-900 dark:text-slate-300">Stock ≥</Label>
                       <Input
                         type="number"
                         className="w-28 bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
@@ -350,7 +350,7 @@ export default function InventoryPage() {
                         onChange={(e) => filters.setMinStock(e.target.value ? Number(e.target.value) : null)}
                       />
                     </div>
-                    <Button variant="ghost" className="text-xs text-slate-600 dark:text-slate-200" onClick={() => filters.reset()}>
+                    <Button variant="ghost" className="text-xs text-slate-900 dark:text-slate-200" onClick={() => filters.reset()}>
                       Limpiar filtros
                     </Button>
                   </div>
@@ -371,13 +371,13 @@ export default function InventoryPage() {
                     <TableBody>
                       {loadingProducts ? (
                         <TableRow>
-                          <TableCell colSpan={5} className="text-center text-sm text-slate-400 dark:text-slate-600">
+                          <TableCell colSpan={5} className="text-center text-sm text-slate-400 dark:text-slate-900">
                             Cargando productos...
                           </TableCell>
                         </TableRow>
                       ) : products.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={5} className="text-center text-sm text-slate-400 dark:text-slate-600">
+                          <TableCell colSpan={5} className="text-center text-sm text-slate-400 dark:text-slate-900">
                             No hay productos con los filtros actuales.
                           </TableCell>
                         </TableRow>
@@ -388,7 +388,7 @@ export default function InventoryPage() {
                               <div className="flex flex-col gap-1">
                                 <span className="text-base font-semibold text-slate-900 dark:text-white">{product.name}</span>
                                 {product.description ? (
-                                  <span className="text-xs line-clamp-2 text-slate-600 dark:text-slate-200">{product.description}</span>
+                                  <span className="text-xs line-clamp-2 text-slate-900 dark:text-slate-200">{product.description}</span>
                                 ) : null}
                               </div>
                             </TableCell>
@@ -456,7 +456,7 @@ export default function InventoryPage() {
                       )}
                     </TableBody>
                   </Table>
-                  <p className="px-4 py-3 text-sm text-slate-400 dark:text-slate-600">Actualización de stock optimista con rollback.</p>
+                  <p className="px-4 py-3 text-sm text-slate-400 dark:text-slate-900">Actualización de stock optimista con rollback.</p>
                 </div>
               </CardContent>
             </Card>
@@ -533,7 +533,7 @@ export default function InventoryPage() {
                     <Button className="flex-1 bg-blue-500 hover:bg-blue-500/90 text-white shadow-md shadow-blue-900/30" onClick={() => productMutation.mutate(productForm)} disabled={productMutation.isPending}>
                       {productForm.id ? "Guardar cambios" : "Crear producto"}
                     </Button>
-                    <Button variant="ghost" onClick={() => setProductForm(emptyProductForm)} disabled={productMutation.isPending} className="text-slate-600 dark:text-slate-400">
+                    <Button variant="ghost" onClick={() => setProductForm(emptyProductForm)} disabled={productMutation.isPending} className="text-slate-900 dark:text-slate-400">
                       Limpiar
                     </Button>
                   </div>
@@ -567,23 +567,23 @@ export default function InventoryPage() {
                     <Button className="flex-1 bg-blue-500 hover:bg-blue-500/90 text-white shadow-md shadow-blue-900/30" onClick={() => categoryMutation.mutate(categoryForm)} disabled={categoryMutation.isPending}>
                       {categoryForm.id ? "Guardar" : "Crear categoría"}
                     </Button>
-                    <Button variant="ghost" onClick={() => setCategoryForm(emptyCategoryForm)} disabled={categoryMutation.isPending} className="text-slate-600 dark:text-slate-400">
+                    <Button variant="ghost" onClick={() => setCategoryForm(emptyCategoryForm)} disabled={categoryMutation.isPending} className="text-slate-900 dark:text-slate-400">
                       Limpiar
                     </Button>
                   </div>
                   <div className="rounded-xl border border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-slate-950/50">
-                    <div className="px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-600">Categorías</div>
+                    <div className="px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-900">Categorías</div>
                     <div className="divide-y divide-slate-200 dark:divide-white/5">
                       {loadingCategories ? (
-                        <div className="p-3 text-sm text-slate-400 dark:text-slate-600">Cargando...</div>
+                        <div className="p-3 text-sm text-slate-400 dark:text-slate-900">Cargando...</div>
                       ) : categories.length === 0 ? (
-                        <div className="p-3 text-sm text-slate-400 dark:text-slate-600">Sin categorías</div>
+                        <div className="p-3 text-sm text-slate-400 dark:text-slate-900">Sin categorías</div>
                       ) : (
                         categories.map((cat) => (
                           <div key={cat.id} className="flex items-center justify-between px-3 py-2 text-sm">
                             <div>
                               <p className="font-medium text-slate-900 dark:text-slate-50">{cat.name}</p>
-                              {cat.description ? <p className="text-xs text-slate-400 dark:text-slate-600">{cat.description}</p> : null}
+                              {cat.description ? <p className="text-xs text-slate-400 dark:text-slate-900">{cat.description}</p> : null}
                             </div>
                             <div className="flex gap-2">
                               <Button
@@ -687,7 +687,7 @@ export default function InventoryPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => { setProductForm(emptyProductForm); setProductModalOpen(false); }} disabled={productMutation.isPending} className="text-slate-600 dark:text-slate-400">
+            <Button variant="ghost" onClick={() => { setProductForm(emptyProductForm); setProductModalOpen(false); }} disabled={productMutation.isPending} className="text-slate-900 dark:text-slate-400">
               Cancelar
             </Button>
             <Button onClick={() => productMutation.mutate(productForm)} disabled={productMutation.isPending}>
@@ -723,7 +723,7 @@ export default function InventoryPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => { setCategoryForm(emptyCategoryForm); setCategoryModalOpen(false); }} disabled={categoryMutation.isPending} className="text-slate-600 dark:text-slate-400">
+            <Button variant="ghost" onClick={() => { setCategoryForm(emptyCategoryForm); setCategoryModalOpen(false); }} disabled={categoryMutation.isPending} className="text-slate-900 dark:text-slate-400">
               Cancelar
             </Button>
             <Button onClick={() => categoryMutation.mutate(categoryForm)} disabled={categoryMutation.isPending}>
@@ -760,7 +760,7 @@ export default function InventoryPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={() => setSettingsModalOpen(false)} className="text-slate-600 dark:text-slate-400">
+            <Button onClick={() => setSettingsModalOpen(false)} className="text-slate-900 dark:text-slate-400">
               Cerrar
             </Button>
           </DialogFooter>
