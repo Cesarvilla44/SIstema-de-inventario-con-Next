@@ -90,7 +90,7 @@ export default function TransfersPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0b1f3d] text-slate-50 dark:bg-slate-100 dark:text-slate-900">
+    <main className="min-h-screen bg-slate-100 text-slate-900 dark:bg-[#0b1f3d] dark:text-slate-50">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10">
         <header className="rounded-2xl border p-6 shadow-2xl backdrop-blur border-white/10 bg-slate-900/70 shadow-slate-900/50 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/50">
           <p className="text-xs uppercase tracking-[0.3em] text-slate-300 dark:text-slate-600">Transferencias</p>
