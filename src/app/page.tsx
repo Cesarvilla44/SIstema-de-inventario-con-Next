@@ -267,7 +267,7 @@ export default function InventoryPage() {
         </>
       </div>
       <div className="relative mx-auto flex max-w-7xl gap-4 px-4 py-6 md:px-6">
-        <aside className="hidden w-60 shrink-0 flex-col gap-2 rounded-2xl border p-4 shadow-2xl backdrop-blur md:flex border-white/10 bg-white/5 shadow-slate-900/40 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/40">
+        <aside className="hidden w-60 shrink-0 flex-col gap-2 rounded-2xl border p-4 shadow-2xl backdrop-blur md:flex border-slate-200 bg-white shadow-slate-200/40 dark:border-white/10 dark:bg-slate-900/5 dark:shadow-slate-900/40">
           <div className="text-sm font-semibold text-slate-900 dark:text-white">Menú</div>
           {[{ label: "General", href: "/general" }, { label: "Inventario", href: "/" }, { label: "Órdenes", href: "/ordenes" }, { label: "Transferencias", href: "/transferencias" }, { label: "Reportes", href: "/reportes" }].map((item) => (
             <Link
@@ -306,7 +306,7 @@ export default function InventoryPage() {
           </div>
 
           <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-            <Card className="border text-slate-50 shadow-2xl backdrop-blur border-white/10 bg-white/5 shadow-slate-900/40 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/40">
+            <Card className="border text-slate-900 shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/40 dark:border-white/10 dark:bg-slate-900/5 dark:text-slate-50 dark:shadow-slate-900/40">
               <CardHeader className="border-b border-white/5 dark:border-slate-200">
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                   <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">Listado de productos</CardTitle>
@@ -316,7 +316,7 @@ export default function InventoryPage() {
                         placeholder="Buscar nombre o descripción"
                         value={filters.search}
                         onChange={(e) => filters.setSearch(e.target.value)}
-                        className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                        className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                       />
                     </div>
                     <div className="flex items-center gap-2 min-w-[200px]">
@@ -325,10 +325,10 @@ export default function InventoryPage() {
                         value={filters.categoryId ?? "all"}
                         onValueChange={(val) => filters.setCategoryId(val === "all" ? null : val)}
                       >
-                        <SelectTrigger className="w-[200px] bg-slate-900 dark:bg-slate-50">
+                        <SelectTrigger className="w-[200px] bg-slate-50 dark:bg-slate-900">
                           <SelectValue placeholder="Todas" />
                         </SelectTrigger>
-                        <SelectContent className="bg-slate-900 text-slate-50 border border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
+                        <SelectContent className="bg-white text-slate-900 border border-slate-200 dark:bg-slate-900 dark:text-slate-50 dark:border-white/10">
                           <SelectGroup>
                             <SelectLabel>Todas</SelectLabel>
                             <SelectItem value="all">Todas</SelectItem>
@@ -345,7 +345,7 @@ export default function InventoryPage() {
                       <Label className="text-xs text-slate-600 dark:text-slate-300">Stock ≥</Label>
                       <Input
                         type="number"
-                        className="w-28 bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                        className="w-28 bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                         value={filters.minStock ?? ""}
                         onChange={(e) => filters.setMinStock(e.target.value ? Number(e.target.value) : null)}
                       />
@@ -462,7 +462,7 @@ export default function InventoryPage() {
             </Card>
 
             <div className="space-y-4">
-              <Card className="border shadow-2xl backdrop-blur border-white/10 bg-slate-900/70 text-slate-50 shadow-slate-950/50 dark:border-slate-200 dark:bg-white dark:text-slate-900 dark:shadow-slate-200/50">
+              <Card className="border shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/50 text-slate-900 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-50 dark:shadow-slate-900/50">
                 <CardHeader className="border-b border-white/5 dark:border-slate-200">
                   <CardTitle className="text-slate-900 dark:text-white">{editingProduct}</CardTitle>
                 </CardHeader>
@@ -473,7 +473,7 @@ export default function InventoryPage() {
                       value={productForm.name}
                       onChange={(e) => setProductForm((p) => ({ ...p, name: e.target.value }))}
                       placeholder="Ej. Monitor 27"
-                      className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                      className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                     />
                   </div>
                   <div className="space-y-1">
@@ -482,7 +482,7 @@ export default function InventoryPage() {
                       value={productForm.description}
                       onChange={(e) => setProductForm((p) => ({ ...p, description: e.target.value }))}
                       placeholder="Opcional"
-                      className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                      className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -494,7 +494,7 @@ export default function InventoryPage() {
                         onChange={(e) => setProductForm((p) => ({ ...p, price: e.target.value }))}
                         min={0}
                         step={0.01}
-                        className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                        className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                       />
                     </div>
                     <div className="space-y-1">
@@ -504,7 +504,7 @@ export default function InventoryPage() {
                         value={productForm.stock}
                         onChange={(e) => setProductForm((p) => ({ ...p, stock: e.target.value }))}
                         min={0}
-                        className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                        className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                       />
                     </div>
                   </div>
@@ -514,10 +514,10 @@ export default function InventoryPage() {
                       value={productForm.categoryId || undefined}
                       onValueChange={(val) => setProductForm((p) => ({ ...p, categoryId: val }))}
                     >
-                      <SelectTrigger className="bg-slate-900 dark:bg-slate-50">
+                      <SelectTrigger className="bg-slate-50 dark:bg-slate-900">
                         <SelectValue placeholder={loadingCategories ? "Cargando..." : "Selecciona"} />
                       </SelectTrigger>
-                      <SelectContent className="bg-slate-900 text-slate-50 border border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
+                      <SelectContent className="bg-white text-slate-900 border border-slate-200 dark:bg-slate-900 dark:text-slate-50 dark:border-white/10">
                         <SelectGroup>
                           <SelectLabel>Categorías</SelectLabel>
                           {categories.map((cat) => (
@@ -540,7 +540,7 @@ export default function InventoryPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border shadow-2xl backdrop-blur border-white/10 bg-white/5 text-slate-50 shadow-slate-950/40 dark:border-slate-200 dark:bg-white dark:text-slate-900 dark:shadow-slate-200/40">
+              <Card className="border shadow-2xl backdrop-blur border-slate-200 bg-white shadow-slate-200/40 text-slate-900 dark:border-white/10 dark:bg-slate-900/5 dark:text-slate-50 dark:shadow-slate-900/40">
                 <CardHeader className="border-b border-white/5 dark:border-slate-200">
                   <CardTitle className="text-slate-900 dark:text-white">{editingCategory}</CardTitle>
                 </CardHeader>
@@ -551,7 +551,7 @@ export default function InventoryPage() {
                       value={categoryForm.name}
                       onChange={(e) => setCategoryForm((c) => ({ ...c, name: e.target.value }))}
                       placeholder="Ej. Oficina"
-                      className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                      className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                     />
                   </div>
                   <div className="space-y-1">
@@ -560,7 +560,7 @@ export default function InventoryPage() {
                       value={categoryForm.description}
                       onChange={(e) => setCategoryForm((c) => ({ ...c, description: e.target.value }))}
                       placeholder="Opcional"
-                      className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                      className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                     />
                   </div>
                   <div className="flex gap-2">
@@ -618,7 +618,7 @@ export default function InventoryPage() {
       </div>
 
       <Dialog open={productModalOpen} onOpenChange={setProductModalOpen}>
-        <DialogContent className="border sm:max-w-md bg-slate-900 text-slate-50 border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
+        <DialogContent className="border sm:max-w-md bg-white text-slate-900 border-slate-200 dark:bg-slate-900 dark:text-slate-50 dark:border-white/10">
           <DialogHeader>
             <DialogTitle className="text-slate-900 dark:text-white">{editingProduct}</DialogTitle>
           </DialogHeader>
@@ -629,7 +629,7 @@ export default function InventoryPage() {
                 value={productForm.name}
                 onChange={(e) => setProductForm((p) => ({ ...p, name: e.target.value }))}
                 placeholder="Ej. Monitor 27"
-                className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
               />
             </div>
             <div className="space-y-1">
@@ -638,7 +638,7 @@ export default function InventoryPage() {
                 value={productForm.description}
                 onChange={(e) => setProductForm((p) => ({ ...p, description: e.target.value }))}
                 placeholder="Opcional"
-                className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -650,7 +650,7 @@ export default function InventoryPage() {
                   onChange={(e) => setProductForm((p) => ({ ...p, price: e.target.value }))}
                   min={0}
                   step={0.01}
-                  className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                  className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                 />
               </div>
               <div className="space-y-1">
@@ -660,7 +660,7 @@ export default function InventoryPage() {
                   value={productForm.stock}
                   onChange={(e) => setProductForm((p) => ({ ...p, stock: e.target.value }))}
                   min={0}
-                  className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                  className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
                 />
               </div>
             </div>
@@ -670,10 +670,10 @@ export default function InventoryPage() {
                 value={productForm.categoryId || undefined}
                 onValueChange={(val) => setProductForm((p) => ({ ...p, categoryId: val }))}
               >
-                <SelectTrigger className="bg-slate-900 dark:bg-slate-50">
+                <SelectTrigger className="bg-slate-50 dark:bg-slate-900">
                   <SelectValue placeholder={loadingCategories ? "Cargando..." : "Selecciona"} />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-900 text-slate-50 border border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
+                <SelectContent className="bg-white text-slate-900 border border-slate-200 dark:bg-slate-900 dark:text-slate-50 dark:border-white/10">
                   <SelectGroup>
                     <SelectLabel>Categorías</SelectLabel>
                     {categories.map((cat) => (
@@ -698,7 +698,7 @@ export default function InventoryPage() {
       </Dialog>
 
       <Dialog open={categoryModalOpen} onOpenChange={setCategoryModalOpen}>
-        <DialogContent className="border sm:max-w-md bg-slate-900 text-slate-50 border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
+        <DialogContent className="border sm:max-w-md bg-white text-slate-900 border-slate-200 dark:bg-slate-900 dark:text-slate-50 dark:border-white/10">
           <DialogHeader>
             <DialogTitle className="text-slate-900 dark:text-white">{editingCategory}</DialogTitle>
           </DialogHeader>
@@ -709,7 +709,7 @@ export default function InventoryPage() {
                 value={categoryForm.name}
                 onChange={(e) => setCategoryForm((c) => ({ ...c, name: e.target.value }))}
                 placeholder="Ej. Oficina"
-                className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
               />
             </div>
             <div className="space-y-1">
@@ -718,7 +718,7 @@ export default function InventoryPage() {
                 value={categoryForm.description}
                 onChange={(e) => setCategoryForm((c) => ({ ...c, description: e.target.value }))}
                 placeholder="Opcional"
-                className="bg-slate-900/60 border-white/10 dark:bg-slate-50 dark:border-slate-300"
+                className="bg-slate-50 border-slate-300 dark:bg-slate-900/60 dark:border-white/10"
               />
             </div>
           </div>
@@ -734,7 +734,7 @@ export default function InventoryPage() {
       </Dialog>
 
       <Dialog open={settingsModalOpen} onOpenChange={setSettingsModalOpen}>
-        <DialogContent className="border sm:max-w-md bg-slate-900 text-slate-50 border-white/10 dark:bg-white dark:text-slate-900 dark:border-slate-200">
+        <DialogContent className="border sm:max-w-md bg-white text-slate-900 border-slate-200 dark:bg-slate-900 dark:text-slate-50 dark:border-white/10">
           <DialogHeader>
             <DialogTitle className="text-slate-900 dark:text-white">Configuración</DialogTitle>
           </DialogHeader>
