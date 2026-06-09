@@ -95,7 +95,7 @@ export default function ReportsPage() {
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10">
         <header className="rounded-2xl border p-6 shadow-2xl backdrop-blur border-white/10 bg-slate-900/70 shadow-slate-900/50 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/50">
           <p className="text-xs uppercase tracking-[0.3em] text-slate-300 dark:text-slate-600">Reportes</p>
-          <h1 className="text-3xl font-semibold text-white dark:text-slate-900">Reportes y alertas</h1>
+          <h1 className="text-3xl font-semibold text-slate-900 dark:text-white">Reportes y alertas</h1>
           <p className="text-sm text-slate-300 dark:text-slate-600">Vista demo. Aquí irán gráficos, exportaciones y alertas.</p>
           <div className="mt-4 flex gap-3 text-sm text-slate-200 dark:text-slate-600">
             <Link href="/" className="rounded-lg border px-3 py-2 border-white/10 bg-white/10 hover:bg-white/15 dark:border-slate-300 dark:bg-slate-50 dark:hover:bg-slate-100">
@@ -106,7 +106,7 @@ export default function ReportsPage() {
 
         <section className="rounded-2xl border p-4 shadow-xl border-white/10 bg-slate-900/70 shadow-slate-900/50 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/50">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white dark:text-slate-900">Reportes disponibles</h2>
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Reportes disponibles</h2>
             <Button onClick={() => setOpen(true)} className="bg-blue-500 hover:bg-blue-500/90 text-white shadow-md shadow-blue-900/30">
               Nuevo reporte
             </Button>
@@ -132,7 +132,7 @@ export default function ReportsPage() {
                       </Link>
                     </td>
                     <td className="px-3 py-2">
-                      <Link className="hover:underline text-white dark:text-slate-900" href={makeHref(r)}>
+                      <Link className="hover:underline text-slate-900 dark:text-white" href={makeHref(r)}>
                         {r.title}
                       </Link>
                     </td>
@@ -162,7 +162,7 @@ export default function ReportsPage() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-300 dark:text-slate-600">Nuevo reporte</p>
-                <h3 className="text-xl font-semibold text-white dark:text-slate-900">Crear reporte</h3>
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Crear reporte</h3>
                 <p className="text-xs text-slate-400 dark:text-slate-600">ID asignado automáticamente: {nextId}</p>
               </div>
               <button className="text-slate-300 hover:text-white dark:text-slate-600 dark:hover:text-slate-900" onClick={() => setOpen(false)}>
