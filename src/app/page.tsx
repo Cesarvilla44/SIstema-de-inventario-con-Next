@@ -745,16 +745,16 @@ export default function InventoryPage() {
                 <Button
                   variant="default"
                   className="flex-1"
-                  onClick={() => setTheme("dark")}
+                  onClick={() => setTheme("light")}
                 >
-                  Oscuro
+                  Claro
                 </Button>
                 <Button
                   variant="outline"
                   className="flex-1"
-                  onClick={() => setTheme("light")}
+                  onClick={() => setTheme("dark")}
                 >
-                  Claro
+                  Oscuro
                 </Button>
               </div>
             </div>
