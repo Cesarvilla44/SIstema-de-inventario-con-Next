@@ -31,10 +31,10 @@ export default async function TransferDetailPage({ params }: Props) {
           <p className="text-sm text-slate-900 dark:text-slate-300">Ítems transferidos: {transfer.items}</p>
           <p className="text-sm text-slate-900 dark:text-slate-300">Fecha: {formattedDate}</p>
           <div className="mt-6 flex gap-3 text-sm text-slate-900 dark:text-slate-200">
-            <Link href="/transferencias" className="rounded-lg border border-slate-300 bg-slate-900 text-white px-3 py-2 hover:bg-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-slate-900 dark:hover:bg-white/15">
+            <Link href="/transferencias" className="rounded-lg border border-slate-300 bg-slate-900 text-white px-3 py-2 hover:bg-slate-800 dark:border-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
               Volver a transferencias
             </Link>
-            <Link href="/" className="rounded-lg border border-slate-300 bg-slate-900 text-white px-3 py-2 hover:bg-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-slate-900 dark:hover:bg-white/15">
+            <Link href="/" className="rounded-lg border border-slate-300 bg-slate-900 text-white px-3 py-2 hover:bg-slate-800 dark:border-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
               Volver a inventario
             </Link>
           </div>

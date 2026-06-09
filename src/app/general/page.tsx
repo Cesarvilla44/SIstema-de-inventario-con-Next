@@ -16,7 +16,7 @@ export default function GeneralPage() {
           <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-200 dark:text-slate-900">
             <Link
               href="/"
-              className="rounded-lg border px-3 py-2 border-slate-300 bg-slate-900 text-white hover:bg-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-slate-900 dark:hover:bg-white/15"
+              className="rounded-lg border px-3 py-2 border-slate-300 bg-slate-900 text-white hover:bg-slate-800 dark:border-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
             >
               Ir a Inventario
             </Link>
