@@ -26,7 +26,7 @@ export default async function RootLayout({
   return (
     <html
       lang="es"
-      className={theme === "dark" ? "dark" : ""}
+      className={`${plusJakarta.variable} ${theme === "dark" ? "dark" : ""}`}
     >
       <body className="min-h-full flex flex-col">
         <Providers>
