@@ -114,11 +114,11 @@ const emptyCategoryForm = {
 
 function StatCard({ label, value, accent }: { label: string; value: string | number; accent: string }) {
   return (
-    <div className="rounded-xl border p-4 shadow-lg border-white/10 bg-gradient-to-br from-white/10 to-white/5 shadow-slate-900/30 dark:border-slate-200 dark:bg-white dark:shadow-slate-200/30">
+    <div className="rounded-xl border p-4 shadow-lg border-white/10 bg-gradient-to-br from-white/10 to-white/5 shadow-slate-900/30 dark:border-slate-200 dark:bg-slate-900 dark:from-slate-900/80 dark:to-slate-800/50 dark:shadow-slate-900/30">
       <p className="text-xs uppercase tracking-[0.25em] text-slate-300 dark:text-slate-600">{label}</p>
       <div className="mt-2 flex items-end gap-2">
         <span className="text-2xl font-semibold text-white dark:text-slate-900">{value}</span>
-        <span className="inline-flex h-6 items-center rounded-full bg-gradient-to-r px-2 text-[11px] font-semibold text-white/90">{accent}OK</span>
+        <span className={`inline-flex h-6 items-center rounded-full bg-gradient-to-r px-2 text-[11px] font-semibold text-white/90 ${accent}`}>OK</span>
       </div>
     </div>
   );
