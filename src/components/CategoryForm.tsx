@@ -68,7 +68,7 @@ export function CategoryForm({
           </Button>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-slate-950/50">
-          <div className="px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-900">Categorías</div>
+          <div className="px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-900 dark:text-white">Categorías</div>
           <div className="divide-y divide-slate-200 dark:divide-white/5">
             {loadingCategories ? (
               <div className="p-3 text-sm text-slate-400 dark:text-slate-900">Cargando...</div>
