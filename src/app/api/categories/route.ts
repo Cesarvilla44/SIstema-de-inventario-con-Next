@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ApiError } from "@/lib/types";
 
 export async function GET() {
   const categories = await prisma.category.findMany({ orderBy: { createdAt: "desc" } });
@@ -18,8 +19,12 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(category, { status: 201 });
-  } catch (error) {
-    console.error("POST /api/categories", error);
-    return NextResponse.json({ error: "Error al crear categoría" }, { status: 500 });
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Error al crear categoría",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    return NextResponse.json(apiError, { status: 500 });
   }
 }

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useThemeStore } from "@/store/theme";
+import { ErrorWithMessage } from "@/lib/types";
 
 type Order = {
   id: string;
@@ -64,7 +65,7 @@ export default function OrdersPage() {
       setOpen(false);
       setErrorMsg(null);
     },
-    onError: (err: any) => setErrorMsg(err?.message || "No se pudo crear la orden"),
+    onError: (err: ErrorWithMessage) => setErrorMsg(err?.message || "No se pudo crear la orden"),
   });
 
   const deleteOrder = useMutation({
@@ -77,7 +78,7 @@ export default function OrdersPage() {
       setDeleteError(null);
       queryClient.invalidateQueries({ queryKey: ["orders"] });
     },
-    onError: (err: any) => {
+    onError: (err: ErrorWithMessage) => {
       setDeletingId(null);
       setDeleteError(err?.message || "No se pudo borrar");
     },

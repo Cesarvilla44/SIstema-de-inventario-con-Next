@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { ApiError } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,8 +16,12 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ theme });
-  } catch (error) {
-    console.error("Error saving theme to cookie:", error);
-    return NextResponse.json({ error: "Failed to save theme" }, { status: 500 });
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Failed to save theme",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    return NextResponse.json(apiError, { status: 500 });
   }
 }

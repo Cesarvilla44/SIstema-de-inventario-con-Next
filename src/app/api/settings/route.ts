@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ApiError } from "@/lib/types";
 
 export async function GET() {
   try {
@@ -12,9 +13,13 @@ export async function GET() {
     }
     
     return NextResponse.json(settings);
-  } catch (error) {
-    console.error("Error fetching settings:", error);
-    return NextResponse.json({ error: "Error fetching settings" }, { status: 500 });
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Error fetching settings",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    return NextResponse.json(apiError, { status: 500 });
   }
 }
 
@@ -37,8 +42,12 @@ export async function PUT(request: NextRequest) {
     }
     
     return NextResponse.json(settings);
-  } catch (error) {
-    console.error("Error updating settings:", error);
-    return NextResponse.json({ error: "Error updating settings" }, { status: 500 });
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Error updating settings",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    return NextResponse.json(apiError, { status: 500 });
   }
 }

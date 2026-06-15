@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useThemeStore } from "@/store/theme";
+import { ErrorWithMessage } from "@/lib/types";
 
 type Report = {
   id: string;
@@ -61,7 +62,7 @@ export default function ReportsPage() {
       setOpen(false);
       setErrorMsg(null);
     },
-    onError: (err: any) => {
+    onError: (err: ErrorWithMessage) => {
       setErrorMsg(err?.message || "No se pudo guardar el reporte");
     },
   });
@@ -76,7 +77,7 @@ export default function ReportsPage() {
       setDeleteError(null);
       queryClient.invalidateQueries({ queryKey: ["reports"] });
     },
-    onError: (err: any) => {
+    onError: (err: ErrorWithMessage) => {
       setDeletingId(null);
       setDeleteError(err?.message || "No se pudo borrar");
     },

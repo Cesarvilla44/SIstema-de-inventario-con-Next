@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ApiError } from "@/lib/types";
 
 interface Params {
   params: { id: string } | Promise<{ id: string }>;
@@ -20,9 +21,13 @@ export async function PUT(request: Request, { params }: Params) {
     });
 
     return NextResponse.json(category);
-  } catch (error) {
-    console.error("PUT /api/categories/[id]", error);
-    return NextResponse.json({ error: "Error al actualizar categoría" }, { status: 500 });
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Error al actualizar categoría",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    return NextResponse.json(apiError, { status: 500 });
   }
 }
 
@@ -32,8 +37,12 @@ export async function DELETE(_request: Request, { params }: Params) {
   try {
     await prisma.category.delete({ where: { id } });
     return NextResponse.json({ ok: true });
-  } catch (error) {
-    console.error("DELETE /api/categories/[id]", error);
-    return NextResponse.json({ error: "Error al eliminar categoría" }, { status: 500 });
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Error al eliminar categoría",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    return NextResponse.json(apiError, { status: 500 });
   }
 }

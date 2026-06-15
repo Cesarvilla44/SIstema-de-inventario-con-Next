@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useThemeStore } from "@/store/theme";
+import { ErrorWithMessage } from "@/lib/types";
 
 type Transfer = {
   id: string;
@@ -64,7 +65,7 @@ export default function TransfersPage() {
       setOpen(false);
       setErrorMsg(null);
     },
-    onError: (err: any) => setErrorMsg(err?.message || "No se pudo crear la transferencia"),
+    onError: (err: ErrorWithMessage) => setErrorMsg(err?.message || "No se pudo crear la transferencia"),
   });
 
   const deleteTransfer = useMutation({
@@ -77,7 +78,7 @@ export default function TransfersPage() {
       setDeleteError(null);
       queryClient.invalidateQueries({ queryKey: ["transfers"] });
     },
-    onError: (err: any) => {
+    onError: (err: ErrorWithMessage) => {
       setDeletingId(null);
       setDeleteError(err?.message || "No se pudo borrar");
     },

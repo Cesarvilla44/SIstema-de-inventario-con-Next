@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ApiError } from "@/lib/types";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -49,8 +50,12 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(product, { status: 201 });
-  } catch (error) {
-    console.error("POST /api/products", error);
-    return NextResponse.json({ error: "Error al crear producto" }, { status: 500 });
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Error al crear producto",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    return NextResponse.json(apiError, { status: 500 });
   }
 }

@@ -1,18 +1,45 @@
-# Sistema de Inventario (Next.js)
+# Sistema de Inventario — Full-Stack Management Platform
 
-![Node](https://img.shields.io/badge/Node-18%2B-339933?logo=node.js&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?logo=prisma&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white)
-![React Query](https://img.shields.io/badge/React%20Query-@tanstack-FF4154?logo=reactquery&logoColor=white)
-![Turbopack](https://img.shields.io/badge/Dev%20server-Turbopack-orange)
-![Vitest](https://img.shields.io/badge/Tests-Vitest-6E9F18?logo=vitest&logoColor=white)
-![Playwright](https://img.shields.io/badge/E2E-Playwright-2EAD33?logo=playwright&logoColor=white)
+> Sistema de gestión de inventario profesional con sincronización en tiempo real,
+> arquitectura serverless y pruebas automatizadas.
 
-Inventario, reportes, órdenes y transferencias con API REST en la App Router de Next.js y persistencia vía Prisma + PostgreSQL.
+[![Node](https://img.shields.io/badge/Node-18%2B-339933?logo=node.js&logoColor=white)]
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js)]
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)]
+[![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?logo=prisma&logoColor=white)]
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white)]
+[![React Query](https://img.shields.io/badge/React%20Query-@tanstack-FF4154?logo=reactquery&logoColor=white)]
+[![Turbopack](https://img.shields.io/badge/Dev%20server-Turbopack-orange)]
+[![Vitest](https://img.shields.io/badge/Tests-Vitest-6E9F18?logo=vitest&logoColor=white)]
+[![Playwright](https://img.shields.io/badge/E2E-Playwright-2EAD33?logo=playwright&logoColor=white)]
+
+## Demo en vivo
+
+* **Aplicación**: https://inventario.vercel.app
+* **Video demo técnica**: [Ver en Loom](#)
+
+## Arquitectura
+
+| Servicio | Tecnología | Despliegue |
+|----------|-----------|----------|
+| Aplicación | Next.js 16 + Prisma | Vercel |
+| Base de datos | PostgreSQL | Neon |
+| Tiempo real | Pusher Channels | Pusher |
+
+## Decisiones técnicas
+
+| Decisión | Alternativas | Razón principal |
+|----------|-------------|-----------------|
+| React Query | fetch directo, SWR | Cache automático y revalidación optimista |
+| Zustand | React Context API | Evita re-renders innecesarios, API más simple |
+| Prisma ORM | SQL directo, TypeORM | Type-safe y excelente DX con PostgreSQL |
+| Vitest + MSW | Jest, mocking directo | MSW intercepta peticiones HTTP reales |
+| Playwright | Cypress, Puppeteer | Soporte nativo para múltiples navegadores |
 
 ## Tabla de contenidos
+- [Demo en vivo](#demo-en-vivo)
+- [Arquitectura](#arquitectura)
+- [Decisiones técnicas](#decisiones-técnicas)
 - [Requisitos](#requisitos)
 - [Instalación](#instalación)
 - [Variables de entorno](#variables-de-entorno)
@@ -22,7 +49,8 @@ Inventario, reportes, órdenes y transferencias con API REST en la App Router de
 - [Flujos principales](#flujos-principales)
 - [API (resumen)](#api-resumen)
 - [Testing](#testing)
-- [Notas de desarrollo](#notas-de-desarrollo)
+- [Calidad del código](#calidad-del-código)
+- [Documentación técnica](#documentación-técnica)
 
 ## Requisitos
 - Node 18+ (recomendado 20.x)
@@ -145,15 +173,38 @@ El proyecto implementa una suite completa de tests siguiendo la pirámide de tes
 - Documentación: `docs/testing/e2e.md`
 
 ### Resumen de Cobertura
-- **Total tests**: 59 tests
+- **Total tests**: 57 tests
 - **Unitarios**: 47 tests (30 utilidades + 8 store + 9 componentes)
 - **Integración**: 9 tests (5 MSW + 4 API Routes)
 - **E2E**: 3 tests
+- **Cobertura líneas**: 100%
+- **Cobertura ramas**: 93.75%
+- **Cobertura funciones**: 100%
 
 ### Documentación de Testing
 - `docs/testing/estrategia.md`: Explicación de la pirámide de tests y hooks de Vitest
 - `docs/testing/integracion.md`: Diferencia entre unitario e integración, MSW vs mocking directo
 - `docs/testing/e2e.md`: Page Object Model y cuándo usar E2E vs integración
+
+## Calidad del código
+
+El proyecto mantiene estándares de calidad estrictos:
+
+- **TypeScript**: 0 errores de compilación, 0 usos de `: any`
+- **ESLint**: 0 errores, 0 warnings (modo estricto configurado)
+- **Build**: Sin errores en producción
+- **Componentes**: Ningún componente excede 200 líneas
+- **Manejo de errores**: Formato estandarizado `ApiError` en todas las API Routes
+- **Console.log**: 0 instancias en código de producción
+
+Ver el informe completo de auditoría técnica en `docs/auditoria/deuda-tecnica.md`.
+
+## Documentación técnica
+
+- **Auditoría técnica**: `docs/auditoria/deuda-tecnica.md` - Problemas encontrados y soluciones
+- **Architecture Decision Records**: `docs/adr/` - Decisiones de arquitectura importantes
+- **Diagrama de arquitectura**: `docs/arquitectura/diagrama.png` - Vista del sistema completo
+- **Reflexión final**: `docs/portfolio/reflexion-final.md` - Lecciones aprendidas
 
 ## Notas de desarrollo
 - Tras modificar `prisma/schema.prisma`, ejecuta migración y `prisma generate` antes de correr el server.

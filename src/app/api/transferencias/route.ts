@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ApiError } from "@/lib/types";
 
 export async function GET() {
   const transfers = await prisma.transfer.findMany({ orderBy: { createdAt: "desc" } });
@@ -26,8 +27,12 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(transfer, { status: 201 });
-  } catch (error) {
-    console.error("POST /api/transferencias", error);
-    return NextResponse.json({ error: "Error al crear transferencia" }, { status: 500 });
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Error al crear transferencia",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    return NextResponse.json(apiError, { status: 500 });
   }
 }

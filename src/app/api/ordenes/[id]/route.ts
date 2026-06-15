@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ApiError } from "@/lib/types";
 
 interface Params {
   params: { id: string } | Promise<{ id: string }>;
@@ -30,9 +31,13 @@ export async function PUT(request: Request, { params }: Params) {
       },
     });
     return NextResponse.json(order);
-  } catch (error) {
-    console.error("PUT /api/ordenes/[id]", error);
-    return NextResponse.json({ error: "Error al actualizar" }, { status: 500 });
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Error al actualizar",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    return NextResponse.json(apiError, { status: 500 });
   }
 }
 
@@ -42,12 +47,16 @@ export async function DELETE(_req: Request, { params }: Params) {
   try {
     await prisma.order.delete({ where: { id } });
     return NextResponse.json({ ok: true });
-  } catch (error: any) {
-    console.error("DELETE /api/ordenes/[id]", error);
-    if (error?.code === "P2025") {
+  } catch (error: unknown) {
+    const apiError: ApiError = {
+      error: "Error al eliminar orden",
+      message: error instanceof Error ? error.message : "Error desconocido",
+      statusCode: 500,
+    };
+    if (error instanceof Error && "code" in error && error.code === "P2025") {
       // Si no existe, respondemos idempotente
       return NextResponse.json({ ok: true });
     }
-    return NextResponse.json({ error: "Error al eliminar orden" }, { status: 500 });
+    return NextResponse.json(apiError, { status: 500 });
   }
 }
