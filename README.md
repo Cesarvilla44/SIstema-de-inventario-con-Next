@@ -127,14 +127,15 @@ prisma/
 El proyecto implementa una suite completa de tests siguiendo la pirámide de testing:
 
 ### Tests Unitarios (Vitest)
-- **Utilidades de producto**: `filterProducts`, `sortProducts`, `isLowStock`, `formatPrice` (30 tests)
+- **Utilidades de producto**: `filterProducts`, `sortProducts`, `isLowStock`, `formatPrice` (30 tests, 100% cobertura)
 - **Store de Zustand**: `useFiltersStore` para gestión de filtros (8 tests)
+- **Componentes React**: `CategoryFilter` y `ProductFilter` (9 tests)
 - Ejecución: `npm test`
 - Cobertura: `npm run test:coverage`
 
-### Tests de Integración (MSW)
-- **Mocking de APIs**: Handlers de MSW para `/api/products` y `/api/categories`
-- **Verificación de peticiones**: Tests que interceptan y validan respuestas HTTP (5 tests)
+### Tests de Integración
+- **MSW**: Handlers de MSW para `/api/products` y `/api/categories` con datos específicos del taller (5 tests)
+- **API Routes**: Tests de validación con `next-test-api-route-handler` (4 tests)
 - Documentación: `docs/testing/integracion.md`
 
 ### Tests E2E (Playwright)
@@ -142,6 +143,12 @@ El proyecto implementa una suite completa de tests siguiendo la pirámide de tes
 - **Navegador real**: Chromium para simular interacciones reales
 - Ejecución: `npx playwright test`
 - Documentación: `docs/testing/e2e.md`
+
+### Resumen de Cobertura
+- **Total tests**: 59 tests
+- **Unitarios**: 47 tests (30 utilidades + 8 store + 9 componentes)
+- **Integración**: 9 tests (5 MSW + 4 API Routes)
+- **E2E**: 3 tests
 
 ### Documentación de Testing
 - `docs/testing/estrategia.md`: Explicación de la pirámide de tests y hooks de Vitest

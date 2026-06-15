@@ -332,7 +332,7 @@ export default function InventoryPage() {
                           <SelectGroup>
                             <SelectLabel>Todas</SelectLabel>
                             <SelectItem value="all">Todas</SelectItem>
-                            {categories.map((cat) => (
+                            {[...categories].reverse().map((cat) => (
                               <SelectItem key={cat.id} value={cat.id}>
                                 {cat.name}
                               </SelectItem>
@@ -520,7 +520,7 @@ export default function InventoryPage() {
                       <SelectContent className="bg-white text-slate-900 border border-slate-200 dark:bg-slate-900 dark:text-slate-50 dark:border-white/10">
                         <SelectGroup>
                           <SelectLabel>Categorías</SelectLabel>
-                          {categories.map((cat) => (
+                          {[...categories].reverse().map((cat) => (
                             <SelectItem key={cat.id} value={cat.id}>
                               {cat.name}
                             </SelectItem>
@@ -579,11 +579,11 @@ export default function InventoryPage() {
                       ) : categories.length === 0 ? (
                         <div className="p-3 text-sm text-slate-400 dark:text-slate-900">Sin categorías</div>
                       ) : (
-                        categories.map((cat) => (
+                        [...categories].reverse().map((cat) => (
                           <div key={cat.id} className="flex items-center justify-between px-3 py-2 text-sm">
                             <div>
                               <p className="font-medium text-slate-900 dark:text-slate-50">{cat.name}</p>
-                              {cat.description ? <p className="text-xs text-slate-400 dark:text-slate-900">{cat.description}</p> : null}
+                              {cat.description ? <p className="text-xs text-slate-500 dark:text-slate-400">{cat.description}</p> : null}
                             </div>
                             <div className="flex gap-2">
                               <Button

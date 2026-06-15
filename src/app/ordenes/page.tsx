@@ -113,7 +113,7 @@ export default function OrdersPage() {
           <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-white/10">
             {deleteError ? <p className="px-3 py-2 text-sm text-red-300">{deleteError}</p> : null}
             <table className="min-w-full text-sm bg-white dark:bg-slate-950/60">
-              <thead className="bg-[#050915] text-white dark:bg-slate-50 dark:text-slate-900">
+              <thead className="bg-slate-50 text-slate-900 dark:bg-[#050915] dark:text-white">
                 <tr>
                   <th className="px-3 py-3 text-left font-semibold">ID</th>
                   <th className="px-3 py-3 text-left font-semibold">Cliente</th>
