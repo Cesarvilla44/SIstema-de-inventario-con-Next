@@ -15,7 +15,7 @@
 
 ## Demo en vivo
 
-* **Aplicación**: https://inventario.vercel.app
+* **Aplicación**: https://s-istema-de-inventario-con-next.vercel.app/
 * **Video demo técnica**: [Ver en Loom](#)
 
 ## Arquitectura
